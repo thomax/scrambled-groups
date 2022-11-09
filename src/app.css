@@ -1,0 +1,183 @@
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  background: url('assets/poly2.webp') no-repeat center center fixed;
+  background-size: cover;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+h4 {
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 20px;
+}
+
+label {
+  font-size: 1em;
+  line-height: 1.2em;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0px;
+  margin: 10px 0px 0px 0px;
+}
+
+#app {
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.wrapper {
+  justify-content: space-between;
+  width: 90vw;
+}
+
+.panel {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1em 1.5em 1.2em 1.5em;
+  border-radius: 2px;
+}
+
+.namesPanel {
+  float: left;
+  width: 20vw;
+}
+
+.whoDunnitPanel {
+  margin-top: 2em;
+  float: left;
+  width: 20vw;
+}
+
+.widgetsPanel {
+  float: right;
+  width: 57vw;
+}
+
+.resultsPanel {
+  margin-top: 2em;
+  float: right;
+  width: 57vw;
+}
+
+.panelHeading {
+  padding-left: 0;
+}
+
+.labelCaption {
+  display: inline-block;
+  width: 22%;
+  vertical-align: text-top;
+}
+
+.radio {
+  height: 20px;
+  width: 20px;
+  margin-bottom: 10px;
+}
+
+.radioButtonContainer {
+  padding: 10px;
+  margin: 20px 0px 20px 0px;
+}
+
+.classroom {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0px 30px 30px 0px;
+  padding: 5px 20px;
+  width: 35%;
+}
+
+.boxProps {
+  border: 1px dotted rgba(37, 33, 33, 0.3);
+  background-color: rgb(170, 215, 245);
+  border-radius: 2px;
+}
+
+.groupNumber {
+  margin: 0;
+  position: absolute;
+  border-radius: 50%;
+  width: 30px;
+  height: 27px;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: -15px;
+  margin-left: -30px;
+  padding-top: 3px;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
+  transition: 0.3s;
+}
+
+.groupNumber:hover {
+  box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.3);
+  transition: 0.3s;
+}
+
+.groupSizes {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.groupSizesDisplay {
+  font-weight: bold;
+  padding: 5px 12px;
+  margin: 0px 0.4rem 0.4rem 0px;
+}
+
+.name {
+  margin: 10px auto;
+  padding: 8px;
+  color: white;
+  background-color: rgba(54, 57, 143, 0.8);
+  width: 35%;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.groupAssign {
+  float: right;
+}
+
+.toggleGroupAssign {
+  font-size: 0.7em;
+  cursor: pointer;
+  text-decoration: none;
+  float: right;
+  padding: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.membersContainer {
+  padding: 10px;
+  margin: 20px 0px 20px 0px;
+}

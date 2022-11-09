@@ -1,0 +1,113 @@
+[
+  {
+    "label": "Test",
+    "members": ["Alfa", "Beta", "Carbonara", "Dingo", "Eple", "Frekkas"]
+  },
+  {
+    "label": "1STC",
+    "members": [
+      "Albert",
+      "Ana",
+      "Anthony",
+      "Biyya",
+      "Eline",
+      "Elisa",
+      "Ella",
+      "Emilie",
+      "Flora",
+      "Hedda",
+      "Helene",
+      "Iben",
+      "Jens",
+      "Johan",
+      "Josefine",
+      "Jølle",
+      "Kai",
+      "Katarina",
+      "Makar",
+      "Mariama",
+      "Marie",
+      "Noah",
+      "Ole",
+      "Oscar",
+      "Pedram",
+      "Pernille",
+      "Sindre",
+      "Sofie",
+      "Emlyn",
+      "Zara"
+    ]
+  },
+  {
+    "label": "1STC-lab-1",
+    "members": [
+      "Mariama",
+      "Biyya",
+      "Johan",
+      "Eline",
+      "Albert",
+      "Zara",
+      "Iben",
+      "Anthony",
+      "Jens",
+      "Sofie",
+      "Jølle",
+      "Elisa",
+      "Ole",
+      "Noah",
+      "Kai",
+      "Helene"
+    ]
+  },
+  {
+    "label": "1STC-lab-2",
+    "members": [
+      "Ana",
+      "Ella",
+      "Emilie",
+      "Flora",
+      "Hedda",
+      "Josefine",
+      "Kai",
+      "Katarina",
+      "Makar",
+      "Marie",
+      "Oscar",
+      "Pedram",
+      "Pernille",
+      "Sindre",
+      "Emlyn"
+    ]
+  },
+  {
+    "label": "IT1",
+    "members": [
+      "Abbe",
+      "Adam",
+      "Aisha",
+      "Aksel",
+      "Anh Koi",
+      "Celina",
+      "Christer",
+      "Daniel H",
+      "Daniel S",
+      "Filip",
+      "Henning",
+      "Håkon",
+      "Jenny",
+      "Josef",
+      "Kjartan",
+      "Mathias",
+      "Mats",
+      "Mustafa",
+      "Nicolai J",
+      "Nicolai S",
+      "Philip",
+      "Richard",
+      "Selma",
+      "Storm",
+      "Teodor",
+      "Tintin"
+    ]
+  }
+]
