@@ -21,6 +21,7 @@
     groupSizes = [0]
   }
 
+  // Update allGroups whenever conent of LocalStorage changes
   storedGroups.subscribe((value) => {
     allGroups = value.split('\n').map((rawGroup) => {
       const [name, rawMembers] = rawGroup.split(':')
@@ -51,7 +52,7 @@
 
 <main class="wrapper">
   <div class="headerPanel panel">
-    <h1 title="because they're more fun that way">Scrambled Groups</h1>
+    <h1 title="Because they're more fun that way">Scrambled Groups</h1>
     <div class="subtitle">
       <a class="toggleEditGroups {isEditingGroups ? 'selected' : ''}" name="edit" on:click={handleToggleEditGroups}>
         {#if isEditingGroups}
