@@ -15,7 +15,6 @@ Need a way to way to divide up people in groups? Randomly? This app features:
 
 - [ ] more responsive design
 - [ ] 4 seconds of dramatic animation "while scrambling"
-- [ ] gh repo create
 
 ## Known bugs
 

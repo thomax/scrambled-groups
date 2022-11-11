@@ -61,7 +61,7 @@
         {/if}
       </a>
       <span class="whoDunnit">
-        Made with 🤨, 💚 and ☕️ by <a href="https://github.com/thomax/random-groups">thomax</a>
+        Made with 🤨, 💚 and ☕️ by <a href="https://github.com/thomax/scrambled-groups" target="_blank">thomax</a>
       </span>
     </div>
   </div>
