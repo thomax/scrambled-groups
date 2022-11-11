@@ -15,8 +15,9 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2.1em;
   line-height: 1.1;
+  float: left;
 }
 
 h4 {
@@ -35,7 +36,7 @@ label {
 ul {
   list-style-type: none;
   padding: 0px;
-  margin: 10px 0px 0px 0px;
+  margin: 0px;
 }
 
 #app {
@@ -51,17 +52,19 @@ ul {
 .panel {
   color: black;
   background-color: rgba(255, 255, 255, 0.8);
-  padding: 1em 1.5em 1.2em 1.5em;
+  padding: 1em 1.5em 1em 1.5em;
   border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.namesPanel {
+.headerPanel {
   float: left;
-  width: 20vw;
+  width: 95%;
+  margin-bottom: 2rem;
+  padding: 0.2em 1.5em 0.2em 1.5em;
 }
 
-.whoDunnitPanel {
-  margin-top: 2em;
+.groupPanel {
   float: left;
   width: 20vw;
 }
@@ -77,8 +80,48 @@ ul {
   width: 57vw;
 }
 
-.panelHeading {
-  padding-left: 0;
+.editGroupsPanel {
+  margin-top: 0rem;
+  width: 95%;
+  float: left;
+}
+
+.subtitle {
+  float: right;
+  margin: 35px 0px 0px 20px;
+}
+
+.toggleEditGroups {
+  font-size: 0.9rem;
+  border: 1px solid rgba(70, 70, 70, 0.6);
+  border-radius: 3px;
+  padding: 10px 12px 10px 12px;
+  cursor: pointer;
+  user-select: none;
+  margin-right: 20px;
+}
+
+.toggleEditGroups:hover {
+  background-color: rgba(70, 70, 70, 0.2);
+}
+
+.toggleEditGroups.selected {
+  background-color: rgba(70, 70, 70, 0.2);
+}
+
+.toggleEditGroups.selected:hover {
+  background-color: white;
+}
+
+
+.whoDunnit {
+  font-size: 0.9rem;
+  color: rgba(70, 70, 70, 0.7);
+}
+
+.whoDunnit a {
+  font-size: 0.9rem;
+  color: rgba(100, 100, 100, 0.7);
 }
 
 .labelCaption {
@@ -98,6 +141,17 @@ ul {
   margin: 20px 0px 20px 0px;
 }
 
+.remaindersWidget {
+  margin-left: 20px;
+}
+
+.scrambleButton {
+  width: 160px;
+  height: 60px;
+  font-size: 1.5rem;
+  font-style: italic;
+}
+
 .classroom {
   display: flex;
   flex-direction: row;
@@ -114,7 +168,7 @@ ul {
 }
 
 .boxProps {
-  border: 1px dotted rgba(37, 33, 33, 0.3);
+  border: 1px solid rgba(37, 33, 33, 0.3);
   background-color: rgb(170, 215, 245);
   border-radius: 2px;
 }
@@ -133,12 +187,12 @@ ul {
   cursor: pointer;
   user-select: none;
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .groupNumber:hover {
   box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.3);
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .groupSizes {
@@ -175,6 +229,21 @@ ul {
   padding: 10px;
   cursor: pointer;
   user-select: none;
+}
+
+.groupEditor {
+  min-width: 500px;
+  max-width: 100%;
+  min-height: 400px;
+  height: 100%;
+  width: 100%;
+  font-size: 1.4rem;
+}
+
+.groupEditRulesList{
+  list-style-type: disc;
+  padding: 0px;
+  margin: 20px 20px 20px 20px;
 }
 
 .membersContainer {

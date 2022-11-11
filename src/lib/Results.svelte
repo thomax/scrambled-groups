@@ -1,16 +1,15 @@
 <script>
+  import {scrambleArray} from "./utils"
+
   export let membersByGroup
   $: membersByGroup
 
   const handleScrambleGroup = (index) => {
-    let scrambledGroup = membersByGroup[index]
-      .map((value) => ({value, sort: Math.random()}))
-      .sort((a, b) => a.sort - b.sort)
-      .map(({value}) => value)
-
+    let scrambledGroup = scrambleArray(membersByGroup[index])
     membersByGroup[index] = scrambledGroup
     membersByGroup = [...membersByGroup]
   }
+
 </script>
 
 <div class="classroom">

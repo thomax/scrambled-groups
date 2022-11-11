@@ -6,24 +6,24 @@
   const group = urlParams.get('group')
 
   const handleSelect = (event) => {
-    const selectedLabel = event.target.value
-    selectedGroup = getGroupByLabel(selectedLabel)
+    const selectedName = event.target.value
+    selectedGroup = getGroupByName(selectedName)
   }
 
-  const getGroupByLabel = (label) => {
+  const getGroupByName = (name) => {
     return (selectedGroup = allGroups.find((group) => {
-      return group.label === label
+      return group.name === name
     }))
   }
 
-  const wantedGroup = getGroupByLabel(urlParams.get('group'))
+  const wantedGroup = getGroupByName(urlParams.get('group'))
   selectedGroup = wantedGroup || allGroups[0]
 </script>
 
 <select on:change={handleSelect}>
   {#each allGroups as group}
-    <option value={group.label} selected={group.label === selectedGroup.label}>
-      {group.label}
+    <option value={group.name} selected={group.name === selectedGroup.name}>
+      {group.name}
     </option>
   {/each}
 </select>

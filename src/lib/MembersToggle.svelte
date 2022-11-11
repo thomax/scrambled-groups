@@ -2,6 +2,7 @@
   // @ts-nocheck
 
   export let groupMembers
+
   const groupOptions = ['-', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   $: isGroupAssignEnabled = false
 

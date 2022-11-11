@@ -1,12 +1,13 @@
 <script>
   import {beforeUpdate} from 'svelte'
+  import {scrambleArray} from "./utils"
   export let members
   export let membersByGroup
   export let groupSizes = []
 
   const defaultGroupSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   let groupSizeOptions = defaultGroupSizeOptions
-  let selectedSize
+  let selectedSize = 3
   let individualSelectDropdown
   let groupSelectMode = 'uniform'
   let isRemainderSeparate = true
@@ -74,12 +75,10 @@
   }
 
   const handleRandomize = () => {
-    const randomizedMembers = members
-      .map((value) => ({value, sort: Math.random()}))
-      .sort((a, b) => a.sort - b.sort)
-      .map(({value}) => value)
-
-    membersByGroup = assignMembersToGroups(randomizedMembers)
+    const randomizedMembers = scrambleArray(members)
+    const tempMembersByGroup = assignMembersToGroups(randomizedMembers)
+    // scramble each group again, to camoflage members with selected groups
+    membersByGroup = tempMembersByGroup.map(scrambleArray)
   }
 
   const handleToggleRemainder = () => {
@@ -88,7 +87,7 @@
 
   const assignMembersToGroups = (randomizedMembers) => {
     const result = []
-    // do first pass, assigning members with specific groups
+    // do first pass, assigning members with specific wanted groups
     randomizedMembers
       .filter((member) => member.group !== '-')
       .forEach((member) => {
@@ -101,6 +100,7 @@
     // do second pass, assigning the rest
     let groupIndex = 0
     let group = result[groupIndex] || []
+
     randomizedMembers
       .filter((member) => member.group === '-')
       .forEach((member) => {
@@ -142,7 +142,7 @@
           </option>
         {/each}
       </select>
-      <span>
+      <span class="remaindersWidget">
         <input
           type="checkbox"
           on:change={() => handleToggleRemainder()}
@@ -184,7 +184,7 @@
   {/each}
 </div>
 <div>
-  <button on:click={handleRandomize}>Randomize</button>
+  <button class="scrambleButton" on:click={handleRandomize}>Scramble!</button>
 </div>
 
 <style src="../app.css"></style>
