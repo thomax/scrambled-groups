@@ -13,10 +13,10 @@ Need a way to way to divide up people in groups? Randomly? This app features:
 
 ## TODO
 
-[ ] more responsive design
-[ ] 4 seconds of dramatic animation "while scrambling"
-[ ] gh repo create
+- [ ] more responsive design
+- [ ] 4 seconds of dramatic animation "while scrambling"
+- [ ] gh repo create
 
 ## Known bugs
 
-[ ] Assigning a wanted group to a member, with a higher number than there are groups, will crash the app
+- [ ] Assigning a wanted group to a member, with a higher number than there are groups, will crash the app
