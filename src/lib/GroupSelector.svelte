@@ -3,25 +3,23 @@
   export let allGroups
   export let selectedGroup = allGroups[0]
 
+  const url = new URL(window.location.toString())
+
   onMount(async () => {
-    const groupFromPath = decodeURI(window.location.pathname).split('/')[1]
-    const matchingGroup = getGroupByName(groupFromPath)
-    if (matchingGroup) {
-      selectedGroup = matchingGroup
-    } else {
-      selectedGroup = allGroups[0]
-    }
-    updateLocation(selectedGroup)
+    const matchingGroup = getGroupByName(url.searchParams.get('group'))
+    selectedGroup = matchingGroup || allGroups[0]
+    updateParams(selectedGroup.name)
   })
 
-  const updateLocation = (group) => {
-    history.pushState(`/${group.name}`, '', `/${group.name}`)
+  const updateParams = (groupName) => {
+    url.searchParams.set('group', groupName)
+    history.replaceState({}, '', url)
   }
 
   const handleSelect = (event) => {
-    const selectedName = event.target.value
-    selectedGroup = getGroupByName(selectedName)
-    updateLocation(selectedGroup)
+    const groupName = event.target.value
+    selectedGroup = getGroupByName(groupName)
+    updateParams(selectedGroup.name)
   }
 
   const getGroupByName = (name) => {
@@ -33,7 +31,7 @@
 
 <select on:change={handleSelect}>
   {#each allGroups as group}
-    <option value={group.name} selected={group.name === selectedGroup.name}>
+    <option value={group.name} selected={selectedGroup.name == group.name}>
       {group.name}
     </option>
   {/each}
