@@ -1,13 +1,27 @@
 <script>
+  import {onMount} from 'svelte'
   export let allGroups
-  export let selectedGroup
+  export let selectedGroup = allGroups[0]
 
-  const urlParams = new URLSearchParams(window.location.search)
-  const group = urlParams.get('group')
+  onMount(async () => {
+    const groupFromPath = decodeURI(window.location.pathname).split('/')[1]
+    const matchingGroup = getGroupByName(groupFromPath)
+    if (matchingGroup) {
+      selectedGroup = matchingGroup
+    } else {
+      selectedGroup = allGroups[0]
+    }
+    updateLocation(selectedGroup)
+  })
+
+  const updateLocation = (group) => {
+    history.pushState(`/${group.name}`, '', `/${group.name}`)
+  }
 
   const handleSelect = (event) => {
     const selectedName = event.target.value
     selectedGroup = getGroupByName(selectedName)
+    updateLocation(selectedGroup)
   }
 
   const getGroupByName = (name) => {
@@ -15,9 +29,6 @@
       return group.name === name
     }))
   }
-
-  const wantedGroup = getGroupByName(urlParams.get('group'))
-  selectedGroup = wantedGroup || allGroups[0]
 </script>
 
 <select on:change={handleSelect}>
