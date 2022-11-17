@@ -51,7 +51,7 @@
 </div>
 
 {#if membersByGroup && membersByGroup.length > 0}
-  <div class="rawResults">
+  <div>
     <textarea id="rawResultsTextArea" name="text" bind:value={textAreaContent} />
   </div>
 {/if}

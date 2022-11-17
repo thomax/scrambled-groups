@@ -54,15 +54,22 @@
   <div class="headerPanel panel">
     <h1 title="Because they're more fun that way">Scrambled Groups</h1>
     <div class="subtitle">
-      <a class="toggleEditGroups {isEditingGroups ? 'selected' : ''}" name="edit" on:click={handleToggleEditGroups}>
+      <a
+        class="toggleEditGroups {isEditingGroups ? 'selected' : ''}"
+        name="edit"
+        on:click={handleToggleEditGroups}
+      >
         {#if isEditingGroups}
-        Done editing groups <Icon path={mdiCogOff} color="black" />
+          Done editing groups <Icon path={mdiCogOff} color="black" />
         {:else}
-        Edit groups <Icon path={mdiCog} color="black" />
+          Edit groups <Icon path={mdiCog} color="black" />
         {/if}
       </a>
       <span class="whoDunnit">
-        Made with 🤨, 💚 and ☕️ by <a href="https://github.com/thomax/scrambled-groups" target="_blank">thomax</a>
+        Made with 🤨, 💚 and ☕️ by <a
+          href="https://github.com/thomax/scrambled-groups"
+          target="_blank">thomax</a
+        >
       </span>
     </div>
   </div>
@@ -75,6 +82,9 @@
     <div class="groupPanel panel">
       <h2 class="panelHeading">Group</h2>
       <GroupSelector bind:selectedGroup {allGroups} />
+      <span class="memberCount"
+        >{`[${groupMembers.length} member${groupMembers.length == 1 ? '' : 's'}]`}</span
+      >
       <MembersToggle bind:groupMembers />
     </div>
 
