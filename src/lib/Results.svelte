@@ -20,8 +20,10 @@
 
   const setTextAreaHeight = () => {
     const textArea = document.getElementById('rawResultsTextArea')
-    textArea.style.height = 0
-    textArea.style.height = textArea.scrollHeight + 5 + 'px'
+    if (textArea) {
+      textArea.style.height = 0
+      textArea.style.height = textArea.scrollHeight + 5 + 'px'
+    }
   }
 
   const produceTextAreaContent = () => {
