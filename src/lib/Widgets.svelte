@@ -1,6 +1,6 @@
 <script>
   import {beforeUpdate} from 'svelte'
-  import {scrambleArray} from "./utils"
+  import {scrambleArray} from './utils'
   export let members
   export let membersByGroup
   export let groupSizes = []
@@ -85,6 +85,7 @@
     isRemainderSeparate = !isRemainderSeparate
   }
 
+  // This is where all the difficult stuff happens :)
   const assignMembersToGroups = (randomizedMembers) => {
     const result = []
     // do first pass, assigning members with specific wanted groups
