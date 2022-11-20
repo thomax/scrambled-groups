@@ -3,21 +3,21 @@
   export let groupMembers
 
   const groupOptions = ['-', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  $: isGroupAssignEnabled = false
+  $: isUnitAssignEnabled = false
 
   const handleToggle = (memberIndex) => {
     groupMembers[memberIndex]['isSelected'] = !groupMembers[memberIndex]['isSelected']
     groupMembers = [...groupMembers]
   }
 
-  const handleGroupAssign = (event, memberIndex) => {
+  const handleUnitAssign = (event, memberIndex) => {
     const groupNumber = parseInt(event.target.value)
     groupMembers[memberIndex]['group'] = groupNumber
     groupMembers = [...groupMembers]
   }
 
-  const handleToggleGroupAssign = () => {
-    isGroupAssignEnabled = !isGroupAssignEnabled
+  const handleToggleUnitAssign = () => {
+    isUnitAssignEnabled = !isUnitAssignEnabled
   }
 </script>
 
@@ -33,8 +33,8 @@
           />
           {member.name}
         </label>
-        {#if isGroupAssignEnabled}
-          <select class="groupAssign" on:change={(event) => handleGroupAssign(event, memberIndex)}>
+        {#if isUnitAssignEnabled}
+          <select class="unitAssign" on:change={(event) => handleUnitAssign(event, memberIndex)}>
             {#each groupOptions as option}
               <option value={option} selected={option == member.group}>
                 {option}
@@ -45,8 +45,8 @@
       </li>
     {/each}
   </ul>
-  <span class="toggleGroupAssign" on:click={handleToggleGroupAssign}>
-    {#if isGroupAssignEnabled}%{:else}/{/if}
+  <span class="toggleUnitAssign" on:click={handleToggleUnitAssign}>
+    {#if isUnitAssignEnabled}%{:else}/{/if}
   </span>
 </div>
 

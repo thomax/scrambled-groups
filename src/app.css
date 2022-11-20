@@ -222,11 +222,11 @@ ul {
   letter-spacing: 1px;
 }
 
-.groupAssign {
+.unitAssign {
   float: right;
 }
 
-.toggleGroupAssign {
+.toggleUnitAssign {
   font-size: 0.7em;
   cursor: pointer;
   text-decoration: none;

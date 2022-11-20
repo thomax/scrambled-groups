@@ -46,7 +46,6 @@
   $: selectedGroup, updateSelectedMembers()
   $: groupMembers
   $: membersByUnit = []
-  $: groupSizes = []
 </script>
 
 <main class="wrapper">
