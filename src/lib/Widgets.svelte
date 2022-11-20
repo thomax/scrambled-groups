@@ -3,81 +3,81 @@
   import {scrambleArray} from './utils'
   export let members
   export let membersByUnit
-  export let groupSizes = []
+  export let unitSizes = []
 
-  const defaultGroupSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  let groupSizeOptions = defaultGroupSizeOptions
+  const defaultUnitSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  let unitSizeOptions = defaultUnitSizeOptions
   let selectedSize = 3
   let individualSelectDropdown
-  let groupSelectMode = 'uniform'
+  let unitSelectMode = 'uniform'
   let isRemainderSeparate = true
 
   beforeUpdate(() => {
-    if (groupSelectMode == 'uniform') {
-      applyUniformGroupSizes(selectedSize || 1)
+    if (unitSelectMode == 'uniform') {
+      applyUniformUnitSizes(selectedSize || 1)
     }
   })
 
   const handleSelectUniform = (event) => {
     selectedSize = parseInt(event.target.value)
-    applyUniformGroupSizes(selectedSize)
+    applyUniformUnitSizes(selectedSize)
   }
 
   const handleSelectIndividual = (event) => {
     selectedSize = parseInt(event.target.value)
-    groupSizes.push(selectedSize)
-    groupSizes = [...groupSizes]
-    groupSizeOptions = calculateGroupSizeOptions(groupSizes, members.length)
+    unitSizes.push(selectedSize)
+    unitSizes = [...unitSizes]
+    unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
     individualSelectDropdown.selectedIndex = 0
   }
 
   const handleToggleMode = () => {
-    groupSizes = []
-    if (groupSelectMode == 'uniform') {
+    unitSizes = []
+    if (unitSelectMode == 'uniform') {
       selectedSize = 1
-      groupSizeOptions = defaultGroupSizeOptions
+      unitSizeOptions = defaultUnitSizeOptions
     } else {
-      groupSizeOptions = calculateGroupSizeOptions(groupSizes, members.length)
+      unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
     }
   }
 
-  const calculateGroupSizeOptions = (groupSizesSoFar, maximum) => {
+  const calculateUnitSizeOptions = (unitSizesSoFar, maximum) => {
     const assignableCount =
-      maximum - (groupSizesSoFar.length ? groupSizesSoFar.reduce((a, b) => a + b) : 0)
+      maximum - (unitSizesSoFar.length ? unitSizesSoFar.reduce((a, b) => a + b) : 0)
     return Array.from({length: assignableCount + 1}, (_, index) => index)
   }
 
-  const applyUniformGroupSizes = (selectedSize) => {
-    groupSizes = []
+  const applyUniformUnitSizes = (selectedSize) => {
+    unitSizes = []
     let membersLeft = members.length
     while (membersLeft > 0) {
-      const index = groupSizes.length - 1
-      if (groupSizes[index] < selectedSize) {
-        groupSizes[index]++
+      const index = unitSizes.length - 1
+      if (unitSizes[index] < selectedSize) {
+        unitSizes[index]++
       } else {
-        groupSizes[index + 1] = 1
+        unitSizes[index + 1] = 1
       }
       membersLeft--
     }
-    if (!isRemainderSeparate && groupSizes[groupSizes.length - 1] < selectedSize) {
+    if (!isRemainderSeparate && unitSizes[unitSizes.length - 1] < selectedSize) {
       // last group size is too small, make the last ones bigger
-      let lastGroupSize = groupSizes.pop()
-      while (lastGroupSize > 0) {
+      let lastUnitSize = unitSizes.pop()
+      while (lastUnitSize > 0) {
         // divide them up
-        groupSizes.every((_, index) => {
-          groupSizes[index]++
-          lastGroupSize--
-          return lastGroupSize > 0
+        unitSizes.every((_, index) => {
+          unitSizes[index]++
+          lastUnitSize--
+          return lastUnitSize > 0
         })
       }
     }
-    groupSizes = [...groupSizes]
+    unitSizes = [...unitSizes]
   }
 
   const handleRandomize = () => {
     const randomizedMembers = scrambleArray(members)
-    const tempmembersByUnit = assignMembersToGroups(randomizedMembers)
-    // scramble each group again, to camoflage members with selected groups
+    const tempmembersByUnit = assignMembersToUnits(randomizedMembers)
+    // scramble each unit again, to camoflage members with preselected units
     membersByUnit = tempmembersByUnit.map(scrambleArray)
   }
 
@@ -86,34 +86,34 @@
   }
 
   // This is where all the difficult stuff happens :)
-  const assignMembersToGroups = (randomizedMembers) => {
+  const assignMembersToUnits = (randomizedMembers) => {
     const result = []
-    // do first pass, assigning members with specific wanted groups
+    // do first pass, assigning members with specific wanted units
     randomizedMembers
       .filter((member) => member.group !== '-')
       .forEach((member) => {
-        const wantedGroupIndex = member.group - 1
-        const wantedGroup = result[wantedGroupIndex] || []
-        wantedGroup.push(member)
-        result[wantedGroupIndex] = wantedGroup
+        const wantedUnitIndex = member.group - 1
+        const wantedUnit = result[wantedUnitIndex] || []
+        wantedUnit.push(member)
+        result[wantedUnitIndex] = wantedUnit
       })
 
     // do second pass, assigning the rest
-    let groupIndex = 0
-    let group = result[groupIndex] || []
+    let unitIndex = 0
+    let unit = result[unitIndex] || []
 
     randomizedMembers
       .filter((member) => member.group === '-')
       .forEach((member) => {
-        while (groupSizes[groupIndex] <= group.length) {
+        while (unitSizes[unitIndex] <= unit.length) {
           // if group is full, write it back to result and handle next
-          result[groupIndex] = group
-          groupIndex++
-          group = result[groupIndex] || []
+          result[unitIndex] = unit
+          unitIndex++
+          unit = result[unitIndex] || []
         }
-        group.push(member)
+        unit.push(member)
       })
-    result[groupIndex] = group
+    result[unitIndex] = unit
     return result
   }
 </script>
@@ -124,8 +124,8 @@
       <input
         class="radio"
         type="radio"
-        bind:group={groupSelectMode}
-        name="groupSelectMode"
+        bind:group={unitSelectMode}
+        name="unitSelectMode"
         value={'uniform'}
         on:change={handleToggleMode}
       />
@@ -133,11 +133,11 @@
       <span class="labelCaption">Group size</span>
 
       <select on:change={handleSelectUniform}>
-        {#each groupSizeOptions as option}
+        {#each unitSizeOptions as option}
           <option
             value={option}
             selected={option === selectedSize}
-            disabled={groupSelectMode !== 'uniform'}
+            disabled={unitSelectMode !== 'uniform'}
           >
             {option}
           </option>
@@ -148,7 +148,7 @@
           type="checkbox"
           on:change={() => handleToggleRemainder()}
           checked={isRemainderSeparate}
-          disabled={groupSelectMode !== 'uniform'}
+          disabled={unitSelectMode !== 'uniform'}
         />
         Keep remainders separate
       </span>
@@ -159,8 +159,8 @@
       <input
         class="radio"
         type="radio"
-        bind:group={groupSelectMode}
-        name="groupSelectMode"
+        bind:group={unitSelectMode}
+        name="unitSelectMode"
         value={'individual'}
         on:change={handleToggleMode}
       />
@@ -168,8 +168,8 @@
       <span class="labelCaption">Group sizes</span>
 
       <select on:change={handleSelectIndividual} bind:this={individualSelectDropdown}>
-        {#each groupSizeOptions as option}
-          <option value={option} selected={false} disabled={groupSelectMode !== 'individual'}>
+        {#each unitSizeOptions as option}
+          <option value={option} selected={false} disabled={unitSelectMode !== 'individual'}>
             {option}
           </option>
         {/each}
@@ -180,8 +180,8 @@
 
 <h4>Groups will look like this</h4>
 <div class="groupSizes">
-  {#each groupSizes as groupSize}
-    <span class="groupSizesDisplay boxProps">{groupSize}</span>
+  {#each unitSizes as groupSize}
+    <span class="unitSizesDisplay boxProps">{groupSize}</span>
   {/each}
 </div>
 <div>
