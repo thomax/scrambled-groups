@@ -1,21 +1,20 @@
 <script>
   // @ts-nocheck
   import {afterUpdate} from 'svelte'
-
   import {scrambleArray} from './utils'
 
   let textAreaContent
-  export let membersByGroup
-  $: membersByGroup, membersByGroup && membersByGroup.length > 0 && produceTextAreaContent()
+  export let membersByUnit
+  $: membersByUnit, membersByUnit && membersByUnit.length > 0 && produceTextAreaContent()
 
   afterUpdate(() => {
     setTextAreaHeight()
   })
 
-  const handleScrambleGroup = (index) => {
-    let scrambledGroup = scrambleArray(membersByGroup[index])
-    membersByGroup[index] = scrambledGroup
-    membersByGroup = [...membersByGroup]
+  const handleScrambleUnit = (index) => {
+    let scrambledUnit = scrambleArray(membersByUnit[index])
+    membersByUnit[index] = scrambledUnit
+    membersByUnit = [...membersByUnit]
   }
 
   const setTextAreaHeight = () => {
@@ -28,9 +27,9 @@
 
   const produceTextAreaContent = () => {
     textAreaContent = ''
-    membersByGroup.forEach((group, index) => {
+    membersByUnit.forEach((unit, index) => {
       textAreaContent += `Group ${index + 1}\n`
-      textAreaContent += `${group.map((member) => member.name).join(', ')}\n`
+      textAreaContent += `${unit.map((member) => member.name).join(', ')}\n`
       textAreaContent += '\n'
     })
     textAreaContent = textAreaContent.trim()
@@ -38,12 +37,11 @@
 </script>
 
 <div class="classroom">
-  {#each membersByGroup as group, index}
-    <div class="group boxProps">
-      <span class="groupNumber boxProps" on:click={() => handleScrambleGroup(index)}
-        >{index + 1}</span
+  {#each membersByUnit as unit, index}
+    <div class="unit boxProps">
+      <span class="unitNumber boxProps" on:click={() => handleScrambleUnit(index)}>{index + 1}</span
       >
-      {#each group as member}
+      {#each unit as member}
         <span class="name">
           {member.name}
         </span>
@@ -52,7 +50,7 @@
   {/each}
 </div>
 
-{#if membersByGroup && membersByGroup.length > 0}
+{#if membersByUnit && membersByUnit.length > 0}
   <div>
     <textarea id="rawResultsTextArea" name="text" bind:value={textAreaContent} />
   </div>

@@ -13,12 +13,11 @@
   let allGroups = []
   let selectedGroup = allGroups[0]
   let groupMembers = []
-  let membersByGroup = []
+  let membersByUnit = []
   let isEditingGroups = false
 
   const updateSelectedMembers = () => {
     groupMembers = selectedGroup ? selectedGroup.members.map(objectifyMember) : []
-    groupSizes = [0]
   }
 
   // Update allGroups whenever conent of LocalStorage changes
@@ -46,7 +45,7 @@
 
   $: selectedGroup, updateSelectedMembers()
   $: groupMembers
-  $: membersByGroup = []
+  $: membersByUnit = []
   $: groupSizes = []
 </script>
 
@@ -82,24 +81,20 @@
     <div class="groupPanel panel">
       <h2 class="panelHeading">Group</h2>
       <GroupSelector bind:selectedGroup {allGroups} />
-      <span class="memberCount"
-        >{`[${groupMembers.length} member${groupMembers.length == 1 ? '' : 's'}]`}</span
-      >
+      <span class="memberCount">
+        {`[${groupMembers.length} member${groupMembers.length == 1 ? '' : 's'}]`}
+      </span>
       <MembersToggle bind:groupMembers />
     </div>
 
     <div class="widgetsPanel panel">
       <h2 class="panelHeading">Widgets</h2>
-      <Widgets
-        bind:membersByGroup
-        bind:groupSizes
-        members={groupMembers.filter((member) => member.isSelected)}
-      />
+      <Widgets bind:membersByUnit members={groupMembers.filter((member) => member.isSelected)} />
     </div>
 
     <div class="resultsPanel panel">
       <h2 class="panelHeading">Results</h2>
-      <Results {membersByGroup} />
+      <Results {membersByUnit} />
     </div>
   {/if}
 </main>

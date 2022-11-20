@@ -2,7 +2,7 @@
   import {beforeUpdate} from 'svelte'
   import {scrambleArray} from './utils'
   export let members
-  export let membersByGroup
+  export let membersByUnit
   export let groupSizes = []
 
   const defaultGroupSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -76,9 +76,9 @@
 
   const handleRandomize = () => {
     const randomizedMembers = scrambleArray(members)
-    const tempMembersByGroup = assignMembersToGroups(randomizedMembers)
+    const tempmembersByUnit = assignMembersToGroups(randomizedMembers)
     // scramble each group again, to camoflage members with selected groups
-    membersByGroup = tempMembersByGroup.map(scrambleArray)
+    membersByUnit = tempmembersByUnit.map(scrambleArray)
   }
 
   const handleToggleRemainder = () => {

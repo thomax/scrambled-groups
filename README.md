@@ -21,3 +21,19 @@ Need a way to way to divide up people in groups? Randomly? This app features:
 ## Known bugs
 
 - [ ] assigning a wanted group to a member, with a higher number than there are groups, will crash the app
+
+## Internal data structures
+
+### Directly edited by the user
+
+- group
+  - name
+  - members
+
+storedGroups holds the raw data, all data as strings
+allGroups holds the data when each group and members thereof are represented as objects
+
+### Produced by randomization
+
+membersByUnits
+--> membersByUnits?
