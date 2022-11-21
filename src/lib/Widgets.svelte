@@ -90,9 +90,9 @@
     const result = []
     // do first pass, assigning members with specific wanted units
     randomizedMembers
-      .filter((member) => member.group !== '-')
+      .filter((member) => member.selectedUnit !== '-')
       .forEach((member) => {
-        const wantedUnitIndex = member.group - 1
+        const wantedUnitIndex = member.selectedUnit - 1
         const wantedUnit = result[wantedUnitIndex] || []
         wantedUnit.push(member)
         result[wantedUnitIndex] = wantedUnit
@@ -103,10 +103,10 @@
     let unit = result[unitIndex] || []
 
     randomizedMembers
-      .filter((member) => member.group === '-')
+      .filter((member) => member.selectedUnit === '-')
       .forEach((member) => {
         while (unitSizes[unitIndex] <= unit.length) {
-          // if group is full, write it back to result and handle next
+          // if unit is full, write it back to result and handle next
           result[unitIndex] = unit
           unitIndex++
           unit = result[unitIndex] || []
@@ -179,9 +179,9 @@
 </div>
 
 <h4>Groups will look like this</h4>
-<div class="groupSizes">
-  {#each unitSizes as groupSize}
-    <span class="unitSizesDisplay boxProps">{groupSize}</span>
+<div class="unitSizes">
+  {#each unitSizes as unitSize}
+    <span class="unitSizesDisplay boxProps">{unitSize}</span>
   {/each}
 </div>
 <div>

@@ -35,7 +35,7 @@
     if (member instanceof Object) {
       return member
     } else {
-      return {name: member, group: '-', isSelected: true}
+      return {name: member, selectedUnit: '-', isSelected: true}
     }
   }
 

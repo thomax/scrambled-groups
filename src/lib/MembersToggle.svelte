@@ -2,7 +2,7 @@
   // @ts-nocheck
   export let groupMembers
 
-  const groupOptions = ['-', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const unitNumberOptions = ['-', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   $: isUnitAssignEnabled = false
 
   const handleToggle = (memberIndex) => {
@@ -11,8 +11,8 @@
   }
 
   const handleUnitAssign = (event, memberIndex) => {
-    const groupNumber = parseInt(event.target.value)
-    groupMembers[memberIndex]['group'] = groupNumber
+    const unitNumber = parseInt(event.target.value)
+    groupMembers[memberIndex]['selectedUnit'] = unitNumber
     groupMembers = [...groupMembers]
   }
 
@@ -35,8 +35,8 @@
         </label>
         {#if isUnitAssignEnabled}
           <select class="unitAssign" on:change={(event) => handleUnitAssign(event, memberIndex)}>
-            {#each groupOptions as option}
-              <option value={option} selected={option == member.group}>
+            {#each unitNumberOptions as option}
+              <option value={option} selected={option == member.selectedUnit}>
                 {option}
               </option>
             {/each}

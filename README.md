@@ -37,3 +37,5 @@ allGroups holds the data when each group and members thereof are represented as 
 
 membersByUnits
 --> membersByUnits?
+
+member.group --> member.selectedUnit
