@@ -80,9 +80,6 @@
     <div class="groupPanel panel">
       <h2 class="panelHeading">Group</h2>
       <GroupSelector bind:selectedGroup {allGroups} />
-      <span class="memberCount">
-        {`[${groupMembers.length} member${groupMembers.length == 1 ? '' : 's'}]`}
-      </span>
       <MembersToggle bind:groupMembers />
     </div>
 

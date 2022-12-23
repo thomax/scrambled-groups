@@ -36,3 +36,7 @@
     </option>
   {/each}
 </select>
+
+<span class="memberCount">
+  {`[${selectedGroup.members.length} member${selectedGroup.members.length == 1 ? '' : 's'}]`}
+</span>
