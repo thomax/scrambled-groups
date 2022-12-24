@@ -7,13 +7,6 @@
   let textAreaContent
   let localMembersByUnit = []
 
-  membersByUnit.subscribe((value) => {
-    if (value && value.length > 0) {
-      localMembersByUnit = value
-      produceTextAreaContent()
-    }
-  })
-
   afterUpdate(() => {
     setTextAreaHeight()
   })
@@ -41,6 +34,13 @@
     })
     textAreaContent = textAreaContent.trim()
   }
+
+  membersByUnit.subscribe((value) => {
+    if (value && value.length > 0) {
+      localMembersByUnit = value
+      produceTextAreaContent()
+    }
+  })
 </script>
 
 {#if localMembersByUnit && localMembersByUnit.length > 0}

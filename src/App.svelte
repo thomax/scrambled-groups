@@ -8,9 +8,8 @@
   import Widgets from './lib/Widgets.svelte'
   import StoredGroupsEditor from './lib/StoredGroupsEditor.svelte'
   import Results from './lib/Results.svelte'
-  import {storedGroups} from './lib/stores.js'
+  import {allGroups} from './lib/stores.js'
 
-  let allGroups = []
   let selectedGroup = allGroups[0]
   let groupMembers = []
   let isEditingGroups = false
@@ -18,15 +17,6 @@
   const updateSelectedMembers = () => {
     groupMembers = selectedGroup ? selectedGroup.members.map(objectifyMember) : []
   }
-
-  // Update allGroups whenever conent of LocalStorage changes
-  storedGroups.subscribe((value) => {
-    allGroups = value.split('\n').map((rawGroup) => {
-      const [name, rawMembers] = rawGroup.split(':')
-      const members = rawMembers ? rawMembers.split(',').map((member) => member.trim()) : []
-      return {name: name.trim(), members}
-    })
-  })
 
   // Incoming members is an array of strings (names)
   // To enable member attributes, make each an object
@@ -77,7 +67,7 @@
   {:else}
     <div class="groupPanel panel">
       <h2 class="panelHeading">Group</h2>
-      <GroupSelector bind:selectedGroup {allGroups} />
+      <GroupSelector bind:selectedGroup />
       <MembersToggle bind:groupMembers />
     </div>
 

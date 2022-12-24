@@ -1,6 +1,9 @@
 <script>
+  // @ts-nocheck
+
   import {onMount} from 'svelte'
-  export let allGroups
+  import {allGroups} from './stores.js'
+
   export let selectedGroup = allGroups[0]
 
   const url = new URL(window.location.toString())
