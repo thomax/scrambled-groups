@@ -13,7 +13,6 @@
   let allGroups = []
   let selectedGroup = allGroups[0]
   let groupMembers = []
-  let membersByUnit = []
   let isEditingGroups = false
 
   const updateSelectedMembers = () => {
@@ -45,7 +44,6 @@
 
   $: selectedGroup, updateSelectedMembers()
   $: groupMembers
-  $: membersByUnit = []
 </script>
 
 <main class="wrapper">
@@ -85,12 +83,12 @@
 
     <div class="widgetsPanel panel">
       <h2 class="panelHeading">Widgets</h2>
-      <Widgets bind:membersByUnit members={groupMembers.filter((member) => member.isSelected)} />
+      <Widgets members={groupMembers.filter((member) => member.isSelected)} />
     </div>
 
     <div class="resultsPanel panel">
       <h2 class="panelHeading">Results</h2>
-      <Results {membersByUnit} />
+      <Results />
     </div>
   {/if}
 </main>

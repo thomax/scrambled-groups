@@ -1,8 +1,9 @@
 <script>
   import {beforeUpdate} from 'svelte'
   import {scrambleArray} from './utils'
+  import {membersByUnit} from './stores.js'
+
   export let members
-  export let membersByUnit
   export let unitSizes = []
 
   const defaultUnitSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -78,7 +79,7 @@
     const randomizedMembers = scrambleArray(members)
     const tempmembersByUnit = assignMembersToUnits(randomizedMembers)
     // scramble each unit again, to camoflage members with preselected units
-    membersByUnit = tempmembersByUnit.map(scrambleArray)
+    $membersByUnit = tempmembersByUnit.map(scrambleArray)
   }
 
   const handleToggleRemainder = () => {

@@ -2,19 +2,26 @@
   // @ts-nocheck
   import {afterUpdate} from 'svelte'
   import {scrambleArray} from './utils'
+  import {membersByUnit} from './stores.js'
 
   let textAreaContent
-  export let membersByUnit
-  $: membersByUnit, membersByUnit && membersByUnit.length > 0 && produceTextAreaContent()
+  let localMembersByUnit = []
+
+  membersByUnit.subscribe((value) => {
+    if (value && value.length > 0) {
+      localMembersByUnit = value
+      produceTextAreaContent()
+    }
+  })
 
   afterUpdate(() => {
     setTextAreaHeight()
   })
 
   const handleScrambleUnit = (index) => {
-    let scrambledUnit = scrambleArray(membersByUnit[index])
-    membersByUnit[index] = scrambledUnit
-    membersByUnit = [...membersByUnit]
+    let scrambledUnit = scrambleArray(localMembersByUnit[index])
+    localMembersByUnit[index] = scrambledUnit
+    $membersByUnit = [...localMembersByUnit]
   }
 
   const setTextAreaHeight = () => {
@@ -27,7 +34,7 @@
 
   const produceTextAreaContent = () => {
     textAreaContent = ''
-    membersByUnit.forEach((unit, index) => {
+    localMembersByUnit.forEach((unit, index) => {
       textAreaContent += `Group ${index + 1}\n`
       textAreaContent += `${unit.map((member) => member.name).join(', ')}\n`
       textAreaContent += '\n'
@@ -36,21 +43,22 @@
   }
 </script>
 
-<div class="classroom">
-  {#each membersByUnit as unit, index}
-    <div class="unit boxProps">
-      <span class="unitNumber boxProps" on:click={() => handleScrambleUnit(index)}>{index + 1}</span
-      >
-      {#each unit as member}
-        <span class="name">
-          {member.name}
-        </span>
-      {/each}
-    </div>
-  {/each}
-</div>
+{#if localMembersByUnit && localMembersByUnit.length > 0}
+  <div class="classroom">
+    {#each localMembersByUnit as unit, index}
+      <div class="unit boxProps">
+        <span class="unitNumber boxProps" on:click={() => handleScrambleUnit(index)}
+          >{index + 1}</span
+        >
+        {#each unit as member}
+          <span class="name">
+            {member.name}
+          </span>
+        {/each}
+      </div>
+    {/each}
+  </div>
 
-{#if membersByUnit && membersByUnit.length > 0}
   <div>
     <textarea id="rawResultsTextArea" name="text" bind:value={textAreaContent} />
   </div>

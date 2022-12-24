@@ -6,11 +6,12 @@ import sampleGroups from './sampleGroups.txt?raw'
 const stored = localStorage.groups || sampleGroups
 
 export let allGroups = [[]]
-export let membersByUnit = [[]]
 export let selectedGroup = allGroups[0]
 
 // Used by StoredGroupsEditor
 export const storedGroups = writable(stored)
+
+export let membersByUnit = writable([])
 
 // Whenever content of LocalStorage changes
 storedGroups.subscribe((value) => {
