@@ -8,32 +8,12 @@
   import Widgets from './lib/Widgets.svelte'
   import StoredGroupsEditor from './lib/StoredGroupsEditor.svelte'
   import Results from './lib/Results.svelte'
-  import {allGroups} from './lib/stores.js'
 
-  let selectedGroup = allGroups[0]
-  let groupMembers = []
   let isEditingGroups = false
-
-  const updateSelectedMembers = () => {
-    groupMembers = selectedGroup ? selectedGroup.members.map(objectifyMember) : []
-  }
-
-  // Incoming members is an array of strings (names)
-  // To enable member attributes, make each an object
-  const objectifyMember = (member) => {
-    if (member instanceof Object) {
-      return member
-    } else {
-      return {name: member, selectedUnit: '-', isSelected: true}
-    }
-  }
 
   const handleToggleEditGroups = () => {
     isEditingGroups = !isEditingGroups
   }
-
-  $: selectedGroup, updateSelectedMembers()
-  $: groupMembers
 </script>
 
 <main class="wrapper">
@@ -67,13 +47,13 @@
   {:else}
     <div class="groupPanel panel">
       <h2 class="panelHeading">Group</h2>
-      <GroupSelector bind:selectedGroup />
-      <MembersToggle bind:groupMembers />
+      <GroupSelector />
+      <MembersToggle />
     </div>
 
     <div class="widgetsPanel panel">
       <h2 class="panelHeading">Widgets</h2>
-      <Widgets members={groupMembers.filter((member) => member.isSelected)} />
+      <Widgets />
     </div>
 
     <div class="resultsPanel panel">

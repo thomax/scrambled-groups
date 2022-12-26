@@ -1,15 +1,21 @@
-import {readable, writable} from 'svelte/store'
+import {writable} from 'svelte/store'
 import sampleGroups from './sampleGroups.txt?raw'
 
 // Get the value out of local storage on load
 // Use a sane default
 const stored = localStorage.groups || sampleGroups
 
-export let allGroups = [[]]
-export let selectedGroup = allGroups[0]
+export let allGroups = []
 
 // Used by StoredGroupsEditor
 export const storedGroups = writable(stored)
+
+// Used by StoredGroupsEditor and MembersToggle
+export let selectedGroup = writable(null)
+
+// Used by MembersToggle and Widgets
+export let selectedGroupMembers = writable(null)
+// TODO: objectify members here somewhere on change
 
 // Used by Widgets and Results
 export let membersByUnit = writable([])

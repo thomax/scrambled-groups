@@ -2,16 +2,14 @@
   // @ts-nocheck
 
   import {onMount} from 'svelte'
-  import {allGroups} from './stores.js'
-
-  export let selectedGroup = allGroups[0]
+  import {allGroups, selectedGroup} from './stores.js'
 
   const url = new URL(window.location.toString())
+  let localSelectedGroup = allGroups[0]
 
   onMount(async () => {
     const matchingGroup = getGroupByName(url.searchParams.get('group'))
-    selectedGroup = matchingGroup || allGroups[0]
-    updateParams(selectedGroup.name)
+    $selectedGroup = matchingGroup || allGroups[0]
   })
 
   const updateParams = (groupName) => {
@@ -21,25 +19,38 @@
 
   const handleSelect = (event) => {
     const groupName = event.target.value
-    selectedGroup = getGroupByName(groupName)
-    updateParams(selectedGroup.name)
+    localSelectedGroup = getGroupByName(groupName)
+    $selectedGroup = localSelectedGroup
   }
 
   const getGroupByName = (name) => {
-    return (selectedGroup = allGroups.find((group) => {
+    return (localSelectedGroup = allGroups.find((group) => {
       return group.name === name
     }))
   }
+
+  selectedGroup.subscribe((value) => {
+    if (value) {
+      localSelectedGroup = value
+      updateParams(localSelectedGroup.name)
+    }
+  })
+
+  $: localSelectedGroup
 </script>
 
 <select on:change={handleSelect}>
   {#each allGroups as group}
-    <option value={group.name} selected={selectedGroup.name == group.name}>
+    <option value={group.name} selected={localSelectedGroup.name == group.name}>
       {group.name}
     </option>
   {/each}
 </select>
 
-<span class="memberCount">
-  {`[${selectedGroup.members.length} member${selectedGroup.members.length == 1 ? '' : 's'}]`}
-</span>
+{#if localSelectedGroup}
+  <span class="memberCount">
+    {`[${localSelectedGroup.members.length} member${
+      localSelectedGroup.members.length == 1 ? '' : 's'
+    }]`}
+  </span>
+{/if}

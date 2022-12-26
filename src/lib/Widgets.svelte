@@ -1,10 +1,10 @@
 <script>
   import {beforeUpdate} from 'svelte'
   import {scrambleArray} from './utils'
-  import {membersByUnit} from './stores.js'
+  import {membersByUnit, selectedGroupMembers} from './stores.js'
 
-  export let members
   export let unitSizes = []
+  let members
 
   const defaultUnitSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   let unitSizeOptions = defaultUnitSizeOptions
@@ -15,7 +15,7 @@
 
   beforeUpdate(() => {
     if (unitSelectMode == 'uniform') {
-      applyUniformUnitSizes(selectedSize || 1)
+      applyUniformUnitSizes(selectedSize)
     }
   })
 
@@ -117,6 +117,16 @@
     result[unitIndex] = unit
     return result
   }
+
+  selectedGroupMembers.subscribe((value) => {
+    // only care about selected members
+    members = value ? value.filter((member) => member.isSelected) : []
+
+    // maybe update unit sizes
+    if (unitSelectMode == 'uniform') {
+      applyUniformUnitSizes(selectedSize)
+    }
+  })
 </script>
 
 <div class="radioButtonContainer boxProps">
