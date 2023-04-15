@@ -13,10 +13,9 @@ Need a way to way to divide up people in groups? Randomly? This app features:
 
 ## TODO
 
+- [ ] also assign members to group in results view
 - [ ] moar responsiver design
 - [ ] 4 seconds of dramatic animation "while scrambling"
-- [ ] also assign members to group in results view
-- [ ] instead of passing vars around, use a store to keep track of stuff
 
 ## Known bugs
 
@@ -32,6 +31,27 @@ Need a way to way to divide up people in groups? Randomly? This app features:
 
 storedGroups holds the raw data, all data as strings
 allGroups holds the data when each group and members thereof are represented as objects
+
+```
+someGroup = {
+  name: 'Peng',
+  member:
+  [
+    {
+      name: 'Jane',
+      isSelected: true,
+      selectedUnit: 3,
+      selectedSlot: 1
+    },
+    {
+      name: 'Jim',
+      isSelected: true,
+      selectedUnit: '-'
+    }
+  ]
+
+]
+```
 
 ### Produced by randomization
 
