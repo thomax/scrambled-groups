@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@mdi/js": "^7.0.96",
+    "prettier": "^3.0.2",
     "svelte-select": "^4.4.7"
   }
 }

@@ -9,7 +9,7 @@
   const defaultUnitSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   let unitSizeOptions = defaultUnitSizeOptions
   let selectedSize = 3
-  let individualSelectDropdown
+  let customSelectDropdown
   let unitSelectMode = 'uniform'
   let isRemainderSeparate = true
 
@@ -24,12 +24,14 @@
     applyUniformUnitSizes(selectedSize)
   }
 
-  const handleSelectIndividual = (event) => {
+  const handleSelectCustom = (event) => {
     selectedSize = parseInt(event.target.value)
     unitSizes.push(selectedSize)
+    // trigger svelte ui update
     unitSizes = [...unitSizes]
+    // update dropdown content
     unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
-    individualSelectDropdown.selectedIndex = 0
+    customSelectDropdown.selectedIndex = 0
   }
 
   const handleToggleMode = () => {
@@ -77,9 +79,9 @@
 
   const handleRandomize = () => {
     const randomizedMembers = scrambleArray(members)
-    const tempmembersByUnit = assignMembersToUnits(randomizedMembers)
+    const tempMembersByUnit = assignMembersToUnits(randomizedMembers)
     // scramble each unit again, to camoflage members with preselected units
-    $membersByUnit = tempmembersByUnit.map(scrambleArray)
+    $membersByUnit = tempMembersByUnit.map(scrambleArray)
   }
 
   const handleToggleRemainder = () => {
@@ -172,15 +174,15 @@
         type="radio"
         bind:group={unitSelectMode}
         name="unitSelectMode"
-        value={'individual'}
+        value={'custom'}
         on:change={handleToggleMode}
       />
 
-      <span class="labelCaption">Group sizes</span>
+      <span class="labelCaption">Custom groups</span>
 
-      <select on:change={handleSelectIndividual} bind:this={individualSelectDropdown}>
+      <select on:change={handleSelectCustom} bind:this={customSelectDropdown}>
         {#each unitSizeOptions as option}
-          <option value={option} selected={false} disabled={unitSelectMode !== 'individual'}>
+          <option value={option} selected={false} disabled={unitSelectMode !== 'custom'}>
             {option}
           </option>
         {/each}
