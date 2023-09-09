@@ -8,16 +8,6 @@
   const unitNumberOptions = ['-', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   $: isUnitAssignEnabled = false
 
-  // Incoming members is an array of strings (names)
-  // To enable member attributes, make each an object
-  const objectifyMember = (member) => {
-    if (member instanceof Object) {
-      return member
-    } else {
-      return {name: member, selectedUnit: '-', isSelected: true}
-    }
-  }
-
   const handleToggleMemberPresence = (memberIndex) => {
     localGroupMembers[memberIndex]['isSelected'] = !localGroupMembers[memberIndex]['isSelected']
     localGroupMembers = [...localGroupMembers]
@@ -35,8 +25,8 @@
     isUnitAssignEnabled = !isUnitAssignEnabled
   }
 
-  selectedGroup.subscribe((value) => {
-    localGroupMembers = value ? value.members.map(objectifyMember) : []
+  selectedGroup.subscribe((group) => {
+    localGroupMembers = group ? group.members : []
     $selectedGroupMembers = localGroupMembers
   })
 </script>

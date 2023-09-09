@@ -36,7 +36,7 @@ allGroups holds the data when each group and members thereof are represented as 
 ```
 someGroup = {
   name: 'Peng',
-  member:
+  members:
   [
     {
       name: 'Jane',
