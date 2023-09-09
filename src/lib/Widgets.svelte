@@ -7,21 +7,22 @@
   let members
 
   const defaultUnitSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const defaultUnitSize = 3
   let unitSizeOptions = defaultUnitSizeOptions
-  let selectedSize = 3
+  let selectedSize = defaultUnitSize
   let customSelectDropdown
-  let unitSelectMode = 'uniform'
+  let mode = 'fixed'
   let isRemainderSeparate = true
 
   beforeUpdate(() => {
-    if (unitSelectMode == 'uniform') {
-      applyUniformUnitSizes(selectedSize)
+    if (mode == 'fixed') {
+      applyFixedUnitSizes(selectedSize)
     }
   })
 
-  const handleSelectUniform = (event) => {
+  const handleSelectFixed = (event) => {
     selectedSize = parseInt(event.target.value)
-    applyUniformUnitSizes(selectedSize)
+    applyFixedUnitSizes(selectedSize)
   }
 
   const handleSelectCustom = (event) => {
@@ -36,10 +37,12 @@
 
   const handleToggleMode = () => {
     unitSizes = []
-    if (unitSelectMode == 'uniform') {
-      selectedSize = 1
+    if (mode == 'fixed') {
+      // all groups will be of same size
+      selectedSize = defaultUnitSize
       unitSizeOptions = defaultUnitSizeOptions
     } else {
+      // custom group sizes
       unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
     }
   }
@@ -50,7 +53,7 @@
     return Array.from({length: assignableCount + 1}, (_, index) => index)
   }
 
-  const applyUniformUnitSizes = (selectedSize) => {
+  const applyFixedUnitSizes = (selectedSize) => {
     unitSizes = []
     let membersLeft = members.length
     while (membersLeft > 0) {
@@ -125,8 +128,8 @@
     members = value ? value.filter((member) => member.isSelected) : []
 
     // maybe update unit sizes
-    if (unitSelectMode == 'uniform') {
-      applyUniformUnitSizes(selectedSize)
+    if (mode == 'fixed') {
+      applyFixedUnitSizes(selectedSize)
     }
   })
 </script>
@@ -137,21 +140,17 @@
       <input
         class="radio"
         type="radio"
-        bind:group={unitSelectMode}
+        bind:group={mode}
         name="unitSelectMode"
-        value={'uniform'}
+        value={'fixed'}
         on:change={handleToggleMode}
       />
 
-      <span class="labelCaption">Group size</span>
+      <span class="labelCaption">Fixed group size</span>
 
-      <select on:change={handleSelectUniform}>
+      <select on:change={handleSelectFixed}>
         {#each unitSizeOptions as option}
-          <option
-            value={option}
-            selected={option === selectedSize}
-            disabled={unitSelectMode !== 'uniform'}
-          >
+          <option value={option} selected={option === selectedSize} disabled={mode !== 'fixed'}>
             {option}
           </option>
         {/each}
@@ -161,7 +160,7 @@
           type="checkbox"
           on:change={() => handleToggleRemainder()}
           checked={isRemainderSeparate}
-          disabled={unitSelectMode !== 'uniform'}
+          disabled={mode !== 'fixed'}
         />
         Keep remainders separate
       </span>
@@ -172,17 +171,17 @@
       <input
         class="radio"
         type="radio"
-        bind:group={unitSelectMode}
+        bind:group={mode}
         name="unitSelectMode"
         value={'custom'}
         on:change={handleToggleMode}
       />
 
-      <span class="labelCaption">Custom groups</span>
+      <span class="labelCaption">Custom group sizes</span>
 
       <select on:change={handleSelectCustom} bind:this={customSelectDropdown}>
         {#each unitSizeOptions as option}
-          <option value={option} selected={false} disabled={unitSelectMode !== 'custom'}>
+          <option value={option} selected={false} disabled={mode !== 'custom'}>
             {option}
           </option>
         {/each}
