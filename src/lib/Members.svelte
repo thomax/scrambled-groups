@@ -18,7 +18,7 @@
     }
   }
 
-  const handleToggle = (memberIndex) => {
+  const handleToggleMemberPresence = (memberIndex) => {
     localGroupMembers[memberIndex]['isSelected'] = !localGroupMembers[memberIndex]['isSelected']
     localGroupMembers = [...localGroupMembers]
     $selectedGroupMembers = localGroupMembers
@@ -48,7 +48,7 @@
         <label>
           <input
             type="checkbox"
-            on:change={() => handleToggle(memberIndex)}
+            on:change={() => handleToggleMemberPresence(memberIndex)}
             checked={member.isSelected}
           />
           {member.name}

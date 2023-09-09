@@ -4,7 +4,7 @@
   import Icon from 'mdi-svelte'
   import {mdiCog, mdiCogOff} from '@mdi/js'
   import GroupSelector from './lib/GroupSelector.svelte'
-  import MembersToggle from './lib/MembersToggle.svelte'
+  import Members from './lib/Members.svelte'
   import Widgets from './lib/Widgets.svelte'
   import StoredGroupsEditor from './lib/StoredGroupsEditor.svelte'
   import Results from './lib/Results.svelte'
@@ -48,7 +48,7 @@
     <div class="groupPanel panel">
       <h2 class="panelHeading">Members</h2>
       <GroupSelector />
-      <MembersToggle />
+      <Members />
     </div>
 
     <div class="widgetsPanel panel">
