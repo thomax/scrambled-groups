@@ -97,7 +97,7 @@ ul {
   margin: 30px 0px 0px 20px;
 }
 
-.toggleEditGroups {
+.toggleEditMembers {
   font-size: 0.9rem;
   border: 1px solid rgba(70, 70, 70, 0.6);
   border-radius: 3px;
@@ -107,15 +107,15 @@ ul {
   margin-right: 20px;
 }
 
-.toggleEditGroups:hover {
+.toggleEditMembers:hover {
   background-color: rgba(70, 70, 70, 0.2);
 }
 
-.toggleEditGroups.selected {
+.toggleEditMembers.selected {
   background-color: rgba(70, 70, 70, 0.2);
 }
 
-.toggleEditGroups.selected:hover {
+.toggleEditMembers.selected:hover {
   background-color: white;
 }
 
