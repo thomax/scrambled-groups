@@ -31,8 +31,8 @@ storedGroups.subscribe((value) => {
 
   // Update allGroups
   allGroups = value.split('\n').map((rawGroup) => {
-    const [name, rawMembers] = rawGroup.split(':')
+    const [groupName, rawMembers] = rawGroup.split(':')
     const members = rawMembers ? rawMembers.split(',').map(objectifyMember) : []
-    return {name: name.trim(), members}
+    return {name: groupName.trim(), members}
   })
 })
