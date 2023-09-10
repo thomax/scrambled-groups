@@ -13,7 +13,7 @@ Need a way to way to divide up people in groups? Randomly? This app features:
 
 ## TODO
 
-- members toggle needs correct 
+- members: list needs correct number of units
 - [ ] also assign members to group in results view
 - [ ] moar responsiver design
 - [ ] 4 seconds of dramatic animation "while scrambling"

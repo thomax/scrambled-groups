@@ -3,9 +3,11 @@
   import {afterUpdate} from 'svelte'
   import {scrambleArray} from './utils'
   import {membersByUnit} from './stores.js'
+  import PlusMark from './PlusMark.svelte'
 
   let textAreaContent
   let localMembersByUnit = []
+  $: placeholdersByIndex = {}
 
   afterUpdate(() => {
     setTextAreaHeight()
@@ -15,6 +17,13 @@
     let scrambledUnit = scrambleArray(localMembersByUnit[index])
     localMembersByUnit[index] = scrambledUnit
     $membersByUnit = [...localMembersByUnit]
+  }
+
+  const handleChangePlaceholderCount = (index, increment) => {
+    let count = placeholdersByIndex[index] || 0
+    count += increment
+    placeholdersByIndex[index] = count
+    placeholdersByIndex = Object.assign(placeholdersByIndex)
   }
 
   const setTextAreaHeight = () => {
@@ -56,6 +65,22 @@
           </span>
         {/each}
       </div>
+      <span
+        class="addPlaceholderButtonContainer"
+        on:click={() => handleChangePlaceholderCount(index, 1)}
+      >
+        <PlusMark />
+      </span>
+      {#if placeholdersByIndex[index]}
+        {#each Array(placeholdersByIndex[index]) as _, idx}
+          <div
+            class="unitPlaceholder boxProps"
+            on:click={() => handleChangePlaceholderCount(index, -1)}
+          >
+            {''}
+          </div>
+        {/each}
+      {/if}
     {/each}
   </div>
 
