@@ -6,11 +6,7 @@ import sampleGroups from './sampleGroups.txt?raw'
 const stored = localStorage.groups || sampleGroups
 
 const objectifyMember = (member) => {
-  if (member instanceof Object) {
-    return member
-  } else {
-    return {name: member.trim(), selectedUnit: '-', isSelected: true}
-  }
+  return {name: member.trim(), selectedUnit: '-', isSelected: true}
 }
 
 // Used by GroupSelector
