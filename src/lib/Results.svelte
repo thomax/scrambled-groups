@@ -7,7 +7,7 @@
 
   let textAreaContent
   let localMembersByUnit = []
-  $: placeholdersByIndex = {}
+  $: placeholdersByIndex = {} // keeps track of unit placeholders
 
   afterUpdate(() => {
     setTextAreaHeight()
