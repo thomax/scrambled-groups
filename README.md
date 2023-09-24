@@ -13,8 +13,6 @@ Need a way to way to divide up people in groups? Randomly? This app features:
 
 ## TODO
 
-- on scramble, set a timestamp to know when/if to update Results
-
 Bug i scramble groups: Dersom man har tatt en elev i en gruppe (den skjulte kolonnen / ) og så tar eleven tilbake til -, så forsvinner hen fra gruppene! som her med Ada. Jeg satte henne i gruppe 1 og så tok jeg - igjen, og nå får hun ikke være med, med mindre jeg gir henne en bestemt gruppe..
 
 - members: list needs correct number of units

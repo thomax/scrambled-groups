@@ -2,18 +2,22 @@
   // @ts-nocheck
   import {afterUpdate} from 'svelte'
   import {scrambleArray, random} from './utils'
-  import {membersByUnit, isAnimationsEnabled} from './stores.js'
+  import {membersByUnit, isAnimationsEnabled, scrambledAt} from './stores.js'
   import PlusMark from './PlusMark.svelte'
 
   let textAreaContent
+  let previousScrambledAt
   $: localMembersByUnit = []
   $: placeholdersByIndex = {} // keeps track of unit placeholders
 
   afterUpdate(() => {
     setTextAreaHeight()
-    if ($isAnimationsEnabled) {
+    console.log('previousScrambledAt', previousScrambledAt)
+    console.log('$scrambledAt', $scrambledAt)
+    if ($isAnimationsEnabled && $scrambledAt !== previousScrambledAt) {
       startAnimation()
     }
+    previousScrambledAt = $scrambledAt
   })
 
   const handleScrambleUnit = (index) => {
@@ -71,7 +75,7 @@
           }
         ],
         {
-          duration: random(4000, 6000),
+          duration: random(2000, 3000),
           easing: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)',
           fill: 'forwards' // keep the end state after the animation
         }

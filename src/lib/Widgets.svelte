@@ -3,7 +3,7 @@
 
   import {beforeUpdate} from 'svelte'
   import {scrambleArray} from './utils'
-  import {membersByUnit, selectedGroupMembers, isAnimationsEnabled} from './stores.js'
+  import {membersByUnit, selectedGroupMembers, isAnimationsEnabled, scrambledAt} from './stores.js'
 
   export let unitSizes = []
   let members
@@ -49,6 +49,7 @@
   }
 
   const handleRandomize = () => {
+    $scrambledAt = new Date().toISOString()
     const randomizedMembers = scrambleArray(members)
     const tempMembersByUnit = assignMembersToUnits(randomizedMembers)
     // scramble each unit again, to camoflage members with preselected units
