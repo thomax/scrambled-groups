@@ -114,7 +114,6 @@
     // do second pass, assigning the rest
     let unitIndex = 0
     let unit = result[unitIndex] || []
-
     randomizedMembers
       .filter((member) => member.selectedUnit === '-')
       .forEach((member) => {

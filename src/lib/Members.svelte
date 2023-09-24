@@ -15,7 +15,7 @@
   }
 
   const handleUnitAssign = (event, memberIndex) => {
-    const unitNumber = parseInt(event.target.value)
+    const unitNumber = isNaN(event.target.value) ? '-' : parseInt(event.target.value)
     localGroupMembers[memberIndex]['selectedUnit'] = unitNumber
     localGroupMembers = [...localGroupMembers]
     $selectedGroupMembers = localGroupMembers
