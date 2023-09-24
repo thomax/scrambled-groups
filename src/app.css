@@ -189,7 +189,7 @@ ul {
   width: 35%;
   opacity: 0.15;
   transition: 0.2s;
-  animation: append-animate .3s ease-out;
+  animation: animateUnitPlaceholder .3s ease-out;
 }
 
 .unitPlaceholder:hover {
@@ -199,7 +199,7 @@ ul {
 }
 
 
-@keyframes append-animate {
+@keyframes animateUnitPlaceholder {
 	from {
 		transform: translateX(-100%);
 		opacity: 0;
@@ -272,7 +272,7 @@ ul {
   margin: 0px 0.4rem 0.4rem 0px;
 }
 
-.name {
+.memberName {
   margin: 10px auto;
   padding: 8px;
   color: white;
@@ -280,6 +280,7 @@ ul {
   width: 35%;
   text-align: center;
   letter-spacing: 1px;
+  transition: all 5s ease-out;
 }
 
 .unitAssign {

@@ -1,16 +1,19 @@
 <script>
   // @ts-nocheck
   import {afterUpdate} from 'svelte'
-  import {scrambleArray} from './utils'
-  import {membersByUnit} from './stores.js'
+  import {scrambleArray, random} from './utils'
+  import {membersByUnit, isAnimationsEnabled} from './stores.js'
   import PlusMark from './PlusMark.svelte'
 
   let textAreaContent
-  let localMembersByUnit = []
+  $: localMembersByUnit = []
   $: placeholdersByIndex = {} // keeps track of unit placeholders
 
   afterUpdate(() => {
     setTextAreaHeight()
+    if ($isAnimationsEnabled) {
+      startAnimation()
+    }
   })
 
   const handleScrambleUnit = (index) => {
@@ -46,10 +49,35 @@
 
   membersByUnit.subscribe((value) => {
     if (value && value.length > 0) {
-      localMembersByUnit = value
+      localMembersByUnit = [...value]
       produceTextAreaContent()
     }
   })
+
+  function startAnimation() {
+    const nameElements = document.querySelectorAll('.memberName')
+
+    nameElements.forEach((elem, index) => {
+      const direction = Math.random() > 0.5 ? 1 : -1
+      const degrees = Math.random() > 0.5 ? 720 : 360
+      const startX = random(-1000, 2000)
+      const startY = -random(600, 1400)
+
+      elem.animate(
+        [
+          {transform: `translateX(${startX}px) translateY(${startY}px) rotate(0deg)`},
+          {
+            transform: `translateX(0px) translateY(0px) rotate(${degrees * direction}deg)`
+          }
+        ],
+        {
+          duration: random(4000, 6000),
+          easing: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)',
+          fill: 'forwards' // keep the end state after the animation
+        }
+      )
+    })
+  }
 </script>
 
 {#if localMembersByUnit && localMembersByUnit.length > 0}
@@ -59,8 +87,8 @@
         <span class="unitNumber boxProps" on:click={() => handleScrambleUnit(index)}
           >{index + 1}</span
         >
-        {#each unit as member}
-          <span class="name">
+        {#each unit as member (member)}
+          <span class="memberName" key={member.name}>
             {member.name}
           </span>
         {/each}
@@ -88,5 +116,3 @@
     <textarea id="rawResultsTextArea" name="text" bind:value={textAreaContent} />
   </div>
 {/if}
-
-<style src="../app.css"></style>

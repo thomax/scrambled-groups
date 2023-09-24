@@ -1,11 +1,12 @@
 <script>
+  // @ts-nocheck
+
   import {beforeUpdate} from 'svelte'
   import {scrambleArray} from './utils'
-  import {membersByUnit, selectedGroupMembers} from './stores.js'
+  import {membersByUnit, selectedGroupMembers, isAnimationsEnabled} from './stores.js'
 
   export let unitSizes = []
   let members
-
   const defaultUnitSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const defaultUnitSize = 3
   let unitSizeOptions = defaultUnitSizeOptions
@@ -47,6 +48,22 @@
     }
   }
 
+  const handleRandomize = () => {
+    const randomizedMembers = scrambleArray(members)
+    const tempMembersByUnit = assignMembersToUnits(randomizedMembers)
+    // scramble each unit again, to camoflage members with preselected units
+    $membersByUnit = []
+    $membersByUnit = [...tempMembersByUnit.map(scrambleArray)]
+  }
+
+  const handleToggleRemainder = () => {
+    isRemainderSeparate = !isRemainderSeparate
+  }
+
+  const handleToggleAnimations = () => {
+    $isAnimationsEnabled = !$isAnimationsEnabled
+  }
+
   const calculateUnitSizeOptions = (unitSizesSoFar, maximum) => {
     const assignableCount =
       maximum - (unitSizesSoFar.length ? unitSizesSoFar.reduce((a, b) => a + b) : 0)
@@ -78,17 +95,6 @@
       }
     }
     unitSizes = [...unitSizes]
-  }
-
-  const handleRandomize = () => {
-    const randomizedMembers = scrambleArray(members)
-    const tempMembersByUnit = assignMembersToUnits(randomizedMembers)
-    // scramble each unit again, to camoflage members with preselected units
-    $membersByUnit = tempMembersByUnit.map(scrambleArray)
-  }
-
-  const handleToggleRemainder = () => {
-    isRemainderSeparate = !isRemainderSeparate
   }
 
   // This is where all the difficult stuff happens :)
@@ -198,6 +204,14 @@
 </div>
 <div>
   <button class="scrambleButton" on:click={handleRandomize}>Scramble!</button>
+  <span class="remaindersWidget">
+    <input
+      type="checkbox"
+      on:change={() => handleToggleAnimations()}
+      checked={$isAnimationsEnabled}
+    />
+    Animate on scramble
+  </span>
 </div>
 
 <style src="../app.css"></style>

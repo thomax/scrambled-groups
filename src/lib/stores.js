@@ -24,6 +24,9 @@ export let selectedGroupMembers = writable(null)
 // Used by Widgets and Results
 export let membersByUnit = writable([])
 
+// Used by Widgets and Results
+export let isAnimationsEnabled = writable([])
+
 // Whenever content of LocalStorage changes
 // Incoming members is an array of strings (names)
 storedGroups.subscribe((value) => {
