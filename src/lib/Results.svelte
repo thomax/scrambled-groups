@@ -5,15 +5,13 @@
   import {membersByUnit, isAnimationsEnabled, scrambledAt} from './stores.js'
   import PlusMark from './PlusMark.svelte'
 
-  let textAreaContent
-  let previousScrambledAt
-  $: localMembersByUnit = []
+  let textAreaContent // content of the copy/paste friendly version
+  let previousScrambledAt // last time a scramble was performed
+  $: localMembersByUnit = [] // local usage of units and members
   $: placeholdersByIndex = {} // keeps track of unit placeholders
 
   afterUpdate(() => {
     setTextAreaHeight()
-    console.log('previousScrambledAt', previousScrambledAt)
-    console.log('$scrambledAt', $scrambledAt)
     if ($isAnimationsEnabled && $scrambledAt !== previousScrambledAt) {
       startAnimation()
     }
@@ -62,10 +60,11 @@
     const nameElements = document.querySelectorAll('.memberName')
 
     nameElements.forEach((elem, index) => {
+      const startX = random(-1000, 1600)
+      const startY = -random(600, 1400)
       const direction = Math.random() > 0.5 ? 1 : -1
       const degrees = Math.random() > 0.5 ? 720 : 360
-      const startX = random(-1000, 2000)
-      const startY = -random(600, 1400)
+      const duration = random(2000, 4000)
 
       elem.animate(
         [
@@ -75,7 +74,7 @@
           }
         ],
         {
-          duration: random(2000, 3000),
+          duration,
           easing: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)',
           fill: 'forwards' // keep the end state after the animation
         }
