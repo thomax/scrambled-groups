@@ -10,7 +10,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  background: url('assets/poly2.webp') no-repeat center center fixed;
+  background: url('assets/background_2.webp') no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -51,7 +51,7 @@ ul {
 
 .panel {
   color: black;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 1em 1.5em 1em 1.5em;
   border-radius: 2px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -80,7 +80,7 @@ ul {
   width: 57vw;
 }
 
-.editGroupsPanel {
+.editSettingsPanel {
   margin-top: 0rem;
   width: 95%;
   float: left;
@@ -127,6 +127,23 @@ ul {
 .whoDunnit a {
   font-size: 0.9rem;
   color: rgba(100, 100, 100, 0.5);
+}
+
+.settingsBox {
+  align-items: left;
+}
+
+.backgroundSelectBox {
+  margin-top: 20px;
+  margin-right: 0px;
+  border: 1px solid black;
+  padding: 1em 1.5em 1em 1.5em;
+  border-radius: 2px;
+}
+
+.groupEditor {
+  /* Style as needed */
+  margin-top: 20px; /* Add some space above the textarea */
 }
 
 .labelCaption {

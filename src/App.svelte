@@ -6,13 +6,13 @@
   import GroupSelector from './lib/GroupSelector.svelte'
   import Members from './lib/Members.svelte'
   import Widgets from './lib/Widgets.svelte'
-  import StoredGroupsEditor from './lib/StoredGroupsEditor.svelte'
+  import SettingsEditor from './lib/SettingsEditor.svelte'
   import Results from './lib/Results.svelte'
 
-  let isEditingMembers = false
+  let isEditingSettings = false
 
-  const handleToggleEditMembers = () => {
-    isEditingMembers = !isEditingMembers
+  const handleToggleEditSettings = () => {
+    isEditingSettings = !isEditingSettings
   }
 </script>
 
@@ -21,14 +21,14 @@
     <h1 title="Because they're more fun that way">Scrambled Groups</h1>
     <div class="subtitle">
       <a
-        class="toggleEditMembers {isEditingMembers ? 'selected' : ''}"
+        class="toggleEditMembers {isEditingSettings ? 'selected' : ''}"
         name="edit"
-        on:click={handleToggleEditMembers}
+        on:click={handleToggleEditSettings}
       >
-        {#if isEditingMembers}
-          Done editing members <Icon path={mdiCogOff} color="black" />
+        {#if isEditingSettings}
+          Done editing settings <Icon path={mdiCogOff} color="black" />
         {:else}
-          Edit members <Icon path={mdiCog} color="black" />
+          Edit settings <Icon path={mdiCog} color="black" />
         {/if}
       </a>
       <span class="whoDunnit">
@@ -40,9 +40,9 @@
     </div>
   </div>
 
-  {#if isEditingMembers}
-    <div class="editGroupsPanel panel">
-      <StoredGroupsEditor />
+  {#if isEditingSettings}
+    <div class="editSettingsPanel panel">
+      <SettingsEditor />
     </div>
   {:else}
     <div class="groupPanel panel">
