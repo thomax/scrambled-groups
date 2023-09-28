@@ -4,12 +4,14 @@ Need a way to way to divide up people in groups? Randomly? This app features:
 
 - Manage your own groups (name of group and group members)
 - Assign members randomly to groups
-- Manual group sizes (you decide the size of each group)
-- Uniform group sizes (all groups are the same size)
+- Fixed group sizes (all groups are the same size)
   - Toggle whether remainders get their own group, or are distributed evenly among existing groups
+- Custom group sizes (you decide the size of each group)
 - Assign a specific member to a specific group (i.e. randomness override)
 - Randomize order within each group
 - All data in LocalStorage, so zero GDPR issues
+- Optional animation on scramble
+- Background image selector
 
 ## TODO
 
