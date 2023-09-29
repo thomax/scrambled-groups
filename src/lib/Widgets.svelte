@@ -1,11 +1,11 @@
 <script>
   // @ts-nocheck
 
-  import {beforeUpdate} from 'svelte'
+  import {afterUpdate, beforeUpdate} from 'svelte'
   import {scrambleArray} from './utils'
   import {membersByUnit, selectedGroupMembers, isAnimationsEnabled, scrambledAt} from './stores.js'
 
-  export let unitSizes = []
+  let unitSizes = []
   let members
   const defaultUnitSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const defaultUnitSize = 3
@@ -18,6 +18,17 @@
   beforeUpdate(() => {
     if (mode == 'fixed') {
       applyFixedUnitSizes(selectedSize)
+    }
+  })
+
+  afterUpdate(() => {
+    if (
+      members.length ==
+      unitSizes.reduce((acc, unitCount) => {
+        return acc + unitCount
+      }, 0)
+    ) {
+      console.log('unitSizes', unitSizes)
     }
   })
 
