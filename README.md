@@ -15,13 +15,11 @@ Need a way to way to divide up people in groups? Randomly? This app features:
 
 ## TODO
 
-- members: list needs correct number of units
+- [ ] members: list needs correct number of units
+  - [ ] bug: assigning a wanted group to a member, with a higher number than there are groups, will crash the app
 - [ ] also assign members to group in results view
 - [ ] moar responsiver design
 
-## Known bugs
-
-- [ ] assigning a wanted group to a member, with a higher number than there are groups, will crash the app
 
 ## Internal data structures
 
