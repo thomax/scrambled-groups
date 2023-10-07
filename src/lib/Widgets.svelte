@@ -160,6 +160,10 @@
     // maybe update unit sizes
     if (mode == 'fixed') {
       applyFixedUnitSizes(selectedSize)
+    } else {
+      // Sizes are unknown, reset
+      unitSizes = []
+      unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
     }
   })
 </script>
