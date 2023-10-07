@@ -39,6 +39,9 @@ export let isAnimationsEnabled = writable([])
 // Used by Widgets and Results
 export let scrambledAt = writable([])
 
+// Used by Widgets and Members
+export let numberOfAvailableUnits = writable(undefined)
+
 // Whenever storedGroups changes
 storedGroups.subscribe((value) => {
   localStorage.groups = value

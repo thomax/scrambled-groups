@@ -49,6 +49,7 @@
     textAreaContent = textAreaContent.trim()
   }
 
+  // listen for changes in members
   membersByUnit.subscribe((value) => {
     if (value && value.length > 0) {
       localMembersByUnit = [...value]

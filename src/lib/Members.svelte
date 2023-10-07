@@ -1,11 +1,11 @@
 <script>
   // @ts-nocheck
 
-  import {selectedGroup, selectedGroupMembers} from './stores.js'
+  import {selectedGroup, selectedGroupMembers, numberOfAvailableUnits} from './stores.js'
 
   let localGroupMembers
 
-  const unitNumberOptions = ['-', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  let unitNumberOptions
   $: isUnitAssignEnabled = false
 
   const handleToggleMemberPresence = (memberIndex) => {
@@ -25,9 +25,23 @@
     isUnitAssignEnabled = !isUnitAssignEnabled
   }
 
+  // listen for change in group selection
   selectedGroup.subscribe((group) => {
     localGroupMembers = group ? group.members : []
     $selectedGroupMembers = localGroupMembers
+  })
+
+  // listen for change in number of units available
+  numberOfAvailableUnits.subscribe((value) => {
+    if (value === undefined) {
+      isUnitAssignEnabled = false
+    } else {
+      // Create correct number of units in options
+      unitNumberOptions = ['-']
+      for (let i = 0; i < value; i++) {
+        unitNumberOptions.push(i + 1)
+      }
+    }
   })
 </script>
 
@@ -56,7 +70,9 @@
     {/each}
   </ul>
   <span class="toggleUnitAssign" on:click={handleToggleUnitAssign}>
-    {#if isUnitAssignEnabled}%{:else}/{/if}
+    {#if $numberOfAvailableUnits !== undefined}
+      {#if isUnitAssignEnabled}%{:else}/{/if}
+    {/if}
   </span>
 </div>
 

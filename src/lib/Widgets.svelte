@@ -3,7 +3,13 @@
 
   import {afterUpdate, beforeUpdate} from 'svelte'
   import {scrambleArray} from './utils'
-  import {membersByUnit, selectedGroupMembers, isAnimationsEnabled, scrambledAt} from './stores.js'
+  import {
+    membersByUnit,
+    selectedGroupMembers,
+    isAnimationsEnabled,
+    scrambledAt,
+    numberOfAvailableUnits
+  } from './stores.js'
 
   let unitSizes = []
   let members
@@ -22,15 +28,21 @@
   })
 
   afterUpdate(() => {
-    if (
+    if (isUnitPlanningComplete(members, unitSizes)) {
+      $numberOfAvailableUnits = unitSizes.length
+    } else {
+      $numberOfAvailableUnits = undefined
+    }
+  })
+
+  const isUnitPlanningComplete = (members, unitSizes) => {
+    return (
       members.length ==
       unitSizes.reduce((acc, unitCount) => {
         return acc + unitCount
       }, 0)
-    ) {
-      console.log('unitSizes', unitSizes)
-    }
-  })
+    )
+  }
 
   const handleSelectFixed = (event) => {
     selectedSize = parseInt(event.target.value)
@@ -140,6 +152,7 @@
     return result
   }
 
+  // listen for changes in group members
   selectedGroupMembers.subscribe((value) => {
     // only care about selected members
     members = value ? value.filter((member) => member.isSelected) : []
