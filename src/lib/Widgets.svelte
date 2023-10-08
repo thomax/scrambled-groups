@@ -12,7 +12,7 @@
   } from './stores.js'
 
   let unitSizes = []
-  let members
+  let members = []
   const defaultUnitSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const defaultUnitSize = 3
   let unitSizeOptions = defaultUnitSizeOptions
@@ -155,15 +155,24 @@
   // listen for changes in group members
   selectedGroupMembers.subscribe((value) => {
     // only care about selected members
-    members = value ? value.filter((member) => member.isSelected) : []
+    const updatedMembers = value ? value.filter((member) => member.isSelected) : []
+    const previousFingerprint = members.map((member) => member.name).join(',')
+    const currenFingerprint = updatedMembers.map((member) => member.name).join(',')
+    const isMemberListIdentical = previousFingerprint === currenFingerprint
+    console.log('previousFingerprint', previousFingerprint)
+    console.log('currenFingerprint', currenFingerprint)
+    console.log('isMemberListIdentical', isMemberListIdentical)
+    members = updatedMembers
 
     // maybe update unit sizes
     if (mode == 'fixed') {
       applyFixedUnitSizes(selectedSize)
     } else {
-      // Sizes are unknown, reset
-      unitSizes = []
-      unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
+      // Members or selected status have been updated, reset unitSizes
+      if (!isMemberListIdentical) {
+        unitSizes = []
+        unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
+      }
     }
   })
 </script>
@@ -226,9 +235,13 @@
 
 <h4>Groups will look like this</h4>
 <div class="unitSizes">
-  {#each unitSizes as unitSize}
-    <span class="unitSizesDisplay boxProps">{unitSize}</span>
-  {/each}
+  {#if unitSizes.length == 0}
+    no groups
+  {:else}
+    {#each unitSizes as unitSize}
+      <span class="unitSizesDisplay boxProps">{unitSize}</span>
+    {/each}
+  {/if}
 </div>
 <div>
   <button class="scrambleButton" on:click={handleRandomize}>Scramble!</button>
