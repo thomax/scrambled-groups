@@ -155,15 +155,11 @@
   // listen for changes in group members
   selectedGroupMembers.subscribe((value) => {
     // only care about selected members
-    const updatedMembers = value ? value.filter((member) => member.isSelected) : []
     const previousFingerprint = members.map((member) => member.name).join(',')
-    const currenFingerprint = updatedMembers.map((member) => member.name).join(',')
-    const isMemberListIdentical = previousFingerprint === currenFingerprint
-    console.log('previousFingerprint', previousFingerprint)
-    console.log('currenFingerprint', currenFingerprint)
-    console.log('isMemberListIdentical', isMemberListIdentical)
+    const updatedMembers = value ? value.filter((member) => member.isSelected) : []
+    const updatedFingerprint = updatedMembers.map((member) => member.name).join(',')
+    const isMemberListIdentical = previousFingerprint === updatedFingerprint
     members = updatedMembers
-
     // maybe update unit sizes
     if (mode == 'fixed') {
       applyFixedUnitSizes(selectedSize)
