@@ -4,6 +4,7 @@
   import {scrambleArray, random} from './utils'
   import {membersByUnit, isAnimationsEnabled, scrambledAt} from './stores.js'
   import PlusMark from './PlusMark.svelte'
+  import {loop_guard} from 'svelte/internal'
 
   let textAreaContent // content of the copy/paste friendly version
   let previousScrambledAt // last time a scramble was performed
@@ -49,18 +50,10 @@
     textAreaContent = textAreaContent.trim()
   }
 
-  // listen for changes in members
-  membersByUnit.subscribe((value) => {
-    if (value && value.length > 0) {
-      localMembersByUnit = [...value]
-      produceTextAreaContent()
-    }
-  })
-
-  function startAnimation() {
+  const startAnimation = () => {
     const nameElements = document.querySelectorAll('.memberName')
 
-    nameElements.forEach((elem, index) => {
+    nameElements.forEach((elem) => {
       const startX = random(-1000, 1600)
       const startY = -random(600, 1400)
       const direction = Math.random() > 0.5 ? 1 : -1
@@ -82,17 +75,25 @@
       )
     })
   }
+
+  // listen for changes in members
+  membersByUnit.subscribe((value) => {
+    if (value && value.length > 0) {
+      localMembersByUnit = [...value]
+      produceTextAreaContent()
+    }
+  })
 </script>
 
 {#if localMembersByUnit && localMembersByUnit.length > 0}
   <div class="classroom">
     {#each localMembersByUnit as unit, index}
-      <div class="unit boxProps">
+      <div class="unit boxProps" key={`unit-${index}`}>
         <span class="unitNumber boxProps" on:click={() => handleScrambleUnit(index)}
           >{index + 1}</span
         >
-        {#each unit as member (member)}
-          <span class="memberName" key={member.name}>
+        {#each unit as member (member.name)}
+          <span class="memberName">
             {member.name}
           </span>
         {/each}
@@ -107,6 +108,7 @@
         {#each Array(placeholdersByIndex[index]) as _, idx}
           <div
             class="unitPlaceholder boxProps"
+            key={`uph-${idx}`}
             on:click={() => handleChangePlaceholderCount(index, -1)}
           >
             {''}

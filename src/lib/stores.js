@@ -12,7 +12,7 @@ updateBackground(localStorageSelectedBackground)
 
 
 const objectifyMember = (member) => {
-  return {name: member.trim(), selectedUnit: '-', isSelected: true}
+  return {name: member.trim(), selectedUnit: '-', selectedPosition: '-', isSelected: true}
 }
 
 // Used by GroupSelector

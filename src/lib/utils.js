@@ -27,4 +27,22 @@ export const random = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+export const getRandomEmptyIndex = (arr) => {
+  const emptyIndices = [];
+
+  // Collect all empty indices
+  for (let i = 0; i < arr.length; i++) {
+    if (!arr.hasOwnProperty(i)) {
+      emptyIndices.push(i);
+    }
+  }
+
+  // If there are no empty indices, return -1
+  if (emptyIndices.length === 0) return -1;
+
+  // Select a random empty index and return it
+  const randomIndex = Math.floor(Math.random() * emptyIndices.length);
+  return emptyIndices[randomIndex];
+}
+
 

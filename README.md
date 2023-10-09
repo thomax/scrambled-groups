@@ -39,12 +39,19 @@ someGroup = {
       name: 'Jane',
       isSelected: true,
       selectedUnit: 3,
-      selectedSlot: 1
+      selectedPosition: 1
+    },
+    {
+      name: 'Eve',
+      isSelected: true,
+      selectedUnit: 3,
+      selectedPosition: '-'
     },
     {
       name: 'Jim',
       isSelected: true,
-      selectedUnit: '-'
+      selectedUnit: '-',
+      selectedPosition: '-'
     }
   ],
   ...

@@ -2,7 +2,7 @@
   // @ts-nocheck
 
   import {afterUpdate, beforeUpdate} from 'svelte'
-  import {scrambleArray} from './utils'
+  import {scrambleArray, getRandomEmptyIndex} from './utils'
   import {
     membersByUnit,
     selectedGroupMembers,
@@ -74,10 +74,7 @@
   const handleRandomize = () => {
     $scrambledAt = new Date().toISOString()
     const randomizedMembers = scrambleArray(members)
-    const tempMembersByUnit = assignMembersToUnits(randomizedMembers)
-    // scramble each unit again, to camoflage members with preselected units
-    $membersByUnit = []
-    $membersByUnit = [...tempMembersByUnit.map(scrambleArray)]
+    $membersByUnit = [...assignMembersToUnits(randomizedMembers)]
   }
 
   const handleToggleRemainder = () => {
@@ -124,29 +121,45 @@
   // This is where all the difficult stuff happens :)
   const assignMembersToUnits = (randomizedMembers) => {
     const result = []
-    // do first pass, assigning members with specific wanted units
+
+    // init result
+    unitSizes.forEach((unitSize, index) => {
+      result[index] = new Array(unitSize)
+    })
+
+    // do first pass, assigning members with preferences (selectedUnit and maybe also selectedPosition)
     randomizedMembers
       .filter((member) => member.selectedUnit !== '-')
       .forEach((member) => {
         const wantedUnitIndex = member.selectedUnit - 1
-        const wantedUnit = result[wantedUnitIndex] || []
-        wantedUnit.push(member)
+        const wantedUnit = result[wantedUnitIndex]
+        if (member.selectedPosition === '-') {
+          // no selected position, use random index
+          const randomIndex = getRandomEmptyIndex(wantedUnit)
+          wantedUnit[randomIndex] = member
+        } else {
+          // use the specified index
+          wantedUnit[member.selectedPosition] = member
+        }
         result[wantedUnitIndex] = wantedUnit
       })
 
-    // do second pass, assigning the rest
+    // do second pass, assigning users with no preference
     let unitIndex = 0
-    let unit = result[unitIndex] || []
+    let unit = result[unitIndex]
     randomizedMembers
       .filter((member) => member.selectedUnit === '-')
       .forEach((member) => {
-        while (unitSizes[unitIndex] <= unit.length) {
+        let nextIndex = getRandomEmptyIndex(unit)
+
+        while (nextIndex == -1 && unitIndex < result.length - 1) {
           // if unit is full, write it back to result and handle next
-          result[unitIndex] = unit
           unitIndex++
-          unit = result[unitIndex] || []
+          unit = result[unitIndex]
+          nextIndex = getRandomEmptyIndex(unit)
         }
-        unit.push(member)
+        unit[nextIndex] = member
+        result[unitIndex] = unit
       })
     result[unitIndex] = unit
     return result
