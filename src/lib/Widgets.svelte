@@ -14,7 +14,7 @@
   let unitSizes = []
   let members = []
   const defaultUnitSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  const defaultUnitSize = 3
+  const defaultUnitSize = 2
   let unitSizeOptions = defaultUnitSizeOptions
   let selectedSize = defaultUnitSize
   let customSelectDropdown
@@ -35,6 +35,7 @@
     }
   })
 
+  // Check if we know the size of all units
   const isUnitPlanningComplete = (members, unitSizes) => {
     return (
       members.length ==
@@ -131,7 +132,7 @@
     randomizedMembers
       .filter((member) => member.selectedUnit !== '-')
       .forEach((member) => {
-        const wantedUnitIndex = member.selectedUnit - 1
+        const wantedUnitIndex = member.selectedUnit
         const wantedUnit = result[wantedUnitIndex]
         if (member.selectedPosition === '-') {
           // no selected position, use random index

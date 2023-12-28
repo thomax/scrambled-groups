@@ -297,7 +297,11 @@ ul {
   width: 35%;
   text-align: center;
   letter-spacing: 1px;
-  transition: all 5s ease-out;
+  border: 2px solid rgba(54, 57, 143, 0.8);
+}
+
+.fixedPositionMember {
+  border: 2px dashed white;
 }
 
 .unitAssign {

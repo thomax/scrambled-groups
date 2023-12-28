@@ -16,7 +16,7 @@
 
   const handleUnitAssign = (event, memberIndex) => {
     const unitNumber = isNaN(event.target.value) ? '-' : parseInt(event.target.value)
-    localGroupMembers[memberIndex]['selectedUnit'] = unitNumber
+    localGroupMembers[memberIndex]['selectedUnit'] = unitNumber - 1
     localGroupMembers = [...localGroupMembers]
     $selectedGroupMembers = localGroupMembers
   }
@@ -27,7 +27,7 @@
 
   // listen for change in group selection
   selectedGroup.subscribe((group) => {
-    localGroupMembers = group ? group.members : []
+    localGroupMembers = group ? [...group.members] : []
     $selectedGroupMembers = localGroupMembers
   })
 
@@ -60,7 +60,7 @@
         {#if isUnitAssignEnabled}
           <select class="unitAssign" on:change={(event) => handleUnitAssign(event, memberIndex)}>
             {#each unitNumberOptions as option}
-              <option value={option} selected={option == member.selectedUnit}>
+              <option value={option} selected={option == member.selectedUnit + 1}>
                 {option}
               </option>
             {/each}

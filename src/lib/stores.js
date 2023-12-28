@@ -1,5 +1,5 @@
 // @ts-nocheck
-import {writable} from 'svelte/store'
+import {get, writable} from 'svelte/store'
 import sampleGroups from './sampleGroups.txt?raw'
 import {updateBackground} from './utils'
 
@@ -18,19 +18,19 @@ const objectifyMember = (member) => {
 // Used by GroupSelector
 export let allGroups = []
 
-// Used by StoredGroupsEditor
+// Used by SettingsEditor
 export const storedGroups = writable(localStorageGroups)
 
 // Used by BackgroundSelect.svelte
 export const selectedBackground = writable(localStorageSelectedBackground)
 
-// Used by StoredGroupsEditor and Members
+// Used by GroupSelector and Members
 export let selectedGroup = writable(null)
 
-// Used by Members and Widgets
+// Used by Members and Widgets. Ordered alphabetically by member.name
 export let selectedGroupMembers = writable(null)
 
-// Used by Widgets and Results
+// Used by Widgets and Results. Scrabled version selectedGroupMemebers
 export let membersByUnit = writable([])
 
 // Used by Widgets and Results

@@ -1,7 +1,7 @@
 <script>
   // @ts-nocheck
   import {afterUpdate} from 'svelte'
-  import {scrambleArray, random} from './utils'
+  import {scrambleArray, random, getRandomEmptyIndex} from './utils'
   import {membersByUnit, isAnimationsEnabled, scrambledAt} from './stores.js'
   import PlusMark from './PlusMark.svelte'
   import {loop_guard} from 'svelte/internal'
@@ -20,7 +20,23 @@
   })
 
   const handleScrambleUnit = (index) => {
-    let scrambledUnit = scrambleArray(localMembersByUnit[index])
+    const unit = localMembersByUnit[index]
+    const scrambledUnit = new Array(unit.length)
+    // first pass, assign members with fixed positions
+    unit
+      .filter((member) => member.selectedPosition !== '-')
+      .forEach((member) => {
+        scrambledUnit[member.selectedPosition] = member
+      })
+
+    // second pass, assign members with no fixed positions
+    unit
+      .filter((member) => member.selectedPosition === '-')
+      .forEach((member) => {
+        const randomIndex = getRandomEmptyIndex(scrambledUnit)
+        scrambledUnit[randomIndex] = member
+      })
+
     localMembersByUnit[index] = scrambledUnit
     $membersByUnit = [...localMembersByUnit]
   }
@@ -30,6 +46,19 @@
     count += increment
     placeholdersByIndex[index] = count
     placeholdersByIndex = Object.assign(placeholdersByIndex)
+  }
+
+  const handleToggleSelectPosition = (unitIndex, memberIndex) => {
+    const unit = $membersByUnit[unitIndex]
+    const member = unit[memberIndex]
+    if (member.selectedPosition === '-') {
+      member.selectedUnit = unitIndex
+      member.selectedPosition = memberIndex
+    } else {
+      member.selectedUnit = '-'
+      member.selectedPosition = '-'
+    }
+    $membersByUnit = [...$membersByUnit]
   }
 
   const setTextAreaHeight = () => {
@@ -87,29 +116,31 @@
 
 {#if localMembersByUnit && localMembersByUnit.length > 0}
   <div class="classroom">
-    {#each localMembersByUnit as unit, index}
-      <div class="unit boxProps" key={`unit-${index}`}>
-        <span class="unitNumber boxProps" on:click={() => handleScrambleUnit(index)}
-          >{index + 1}</span
+    {#each localMembersByUnit as unit, unitIndex}
+      <div class="unit boxProps" key={`unit-${unitIndex}`}>
+        <span class="unitNumber boxProps" on:click={() => handleScrambleUnit(unitIndex)}
+          >{unitIndex + 1}</span
         >
-        {#each unit as member (member.name)}
-          <span class="memberName">
+        {#each unit as member, memberIndex (member.name)}
+          <span
+            class={`memberName ${member.selectedPosition === '-' ? '' : 'fixedPositionMember'}`}
+            on:click={() => handleToggleSelectPosition(unitIndex, memberIndex)}
+          >
             {member.name}
           </span>
         {/each}
       </div>
       <span
         class="addPlaceholderButtonContainer"
-        on:click={() => handleChangePlaceholderCount(index, 1)}
+        on:click={() => handleChangePlaceholderCount(unitIndex, 1)}
       >
         <PlusMark />
       </span>
-      {#if placeholdersByIndex[index]}
-        {#each Array(placeholdersByIndex[index]) as _, idx}
+      {#if placeholdersByIndex[unitIndex]}
+        {#each Array(placeholdersByIndex[unitIndex]) as _}
           <div
             class="unitPlaceholder boxProps"
-            key={`uph-${idx}`}
-            on:click={() => handleChangePlaceholderCount(index, -1)}
+            on:click={() => handleChangePlaceholderCount(unitIndex, -1)}
           >
             {''}
           </div>

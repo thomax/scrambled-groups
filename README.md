@@ -15,13 +15,12 @@ Need a way to way to divide up people in groups? Randomly? This app features:
 
 ## TODO
 
-- [ ] also assign members to group in results view
+- Take a closer look at the data model
+  - fewer writable stores
+  - separate names and metadata (dont need to shuffle metadata such as selectedPosition)
 - [ ] moar responsiver design
 
-
-## Internal data structures
-
-### Directly edited by the user
+## Directly edited by the user
 
 - group
   - name

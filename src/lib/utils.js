@@ -1,14 +1,15 @@
 import img0 from '../assets/background_0.webp'
 import img1 from '../assets/background_1.webp'
 import img2 from '../assets/background_2.webp'
-import img3 from '../assets/background_4.jpg'
-import img4 from '../assets/background_5.jpg'
-import img5 from '../assets/background_6.jpg'
-import img6 from '../assets/background_7.jpg'
-import img7 from '../assets/background_8.jpg'
-import img8 from '../assets/background_9.jpg'
+import img3 from '../assets/background_3.jpg'
+import img4 from '../assets/background_4.jpg'
+import img5 from '../assets/background_5.jpg'
+import img6 from '../assets/background_6.jpg'
+import img7 from '../assets/background_7.jpg'
+import img8 from '../assets/background_8.jpg'
+import img9 from '../assets/background_9.jpg'
 
-export const backgroundImages = [img0, img1, img2, img3, img4, img5, img6, img7, img8]
+export const backgroundImages = [img0, img1, img2, img3, img4, img5, img6, img7, img8, img9]
 
 export const updateBackground = (num) => {
   const css = `url('${backgroundImages[num]}')`
