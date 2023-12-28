@@ -301,7 +301,8 @@ ul {
 }
 
 .fixedPositionMember {
-  border: 2px dashed white;
+  border: inset 4px;
+  transition: 0.08s;
 }
 
 .unitAssign {
