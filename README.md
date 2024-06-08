@@ -1,3 +1,7 @@
+# Data model revamp
+
+There are some quirks and debris in this code which I intend to get rid of by going OOP and a more centralized handling of data (instead of POJOs in different flavors all over the place). Let's see where this goes.
+
 # Random groups
 
 Need a way to way to divide up people in groups? Randomly? This app features:
