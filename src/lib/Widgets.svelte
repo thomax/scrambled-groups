@@ -5,7 +5,7 @@
   import {scrambleArray, getRandomEmptyIndex} from './utils'
   import {
     membersByUnit,
-    selectedGroupMembers,
+    selectedClassMembers,
     isAnimationsEnabled,
     scrambledAt,
     numberOfAvailableUnits
@@ -63,11 +63,11 @@
   const handleToggleMode = () => {
     unitSizes = []
     if (mode == 'fixed') {
-      // all groups will be of same size
+      // all units will be of same size
       selectedSize = defaultUnitSize
       unitSizeOptions = defaultUnitSizeOptions
     } else {
-      // custom group sizes
+      // custom unit sizes
       unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
     }
   }
@@ -105,7 +105,7 @@
       membersLeft--
     }
     if (!isRemainderSeparate && unitSizes[unitSizes.length - 1] < selectedSize) {
-      // last group size is too small, make the last ones bigger
+      // last unit size is too small, make the last ones bigger
       let lastUnitSize = unitSizes.pop()
       while (lastUnitSize > 0) {
         // divide them up
@@ -166,8 +166,8 @@
     return result
   }
 
-  // listen for changes in group members
-  selectedGroupMembers.subscribe((value) => {
+  // listen for changes in class members
+  selectedClassMembers.subscribe((value) => {
     // only care about selected members
     const previousFingerprint = members.map((member) => member.name).join(',')
     const updatedMembers = value ? value.filter((member) => member.isSelected) : []
@@ -199,7 +199,7 @@
         on:change={handleToggleMode}
       />
 
-      <span class="labelCaption">Fixed group size</span>
+      <span class="labelCaption">Fixed unit size</span>
 
       <select on:change={handleSelectFixed}>
         {#each unitSizeOptions as option}
@@ -230,7 +230,7 @@
         on:change={handleToggleMode}
       />
 
-      <span class="labelCaption">Custom group sizes</span>
+      <span class="labelCaption">Custom unit sizes</span>
 
       <select on:change={handleSelectCustom} bind:this={customSelectDropdown}>
         {#each unitSizeOptions as option}
@@ -243,10 +243,10 @@
   </div>
 </div>
 
-<h4>Groups will look like this</h4>
+<h4>Units will look like this</h4>
 <div class="unitSizes">
   {#if unitSizes.length == 0}
-    no groups
+    no units
   {:else}
     {#each unitSizes as unitSize}
       <span class="unitSizesDisplay boxProps">{unitSize}</span>

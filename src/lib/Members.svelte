@@ -1,34 +1,34 @@
 <script>
   // @ts-nocheck
 
-  import {selectedGroup, selectedGroupMembers, numberOfAvailableUnits} from './stores.js'
+  import {selectedClass, selectedClassMembers, numberOfAvailableUnits} from './stores.js'
 
-  let localGroupMembers
+  let localClassMembers
 
   let unitNumberOptions
   $: isUnitAssignEnabled = false
 
   const handleToggleMemberPresence = (memberIndex) => {
-    localGroupMembers[memberIndex]['isSelected'] = !localGroupMembers[memberIndex]['isSelected']
-    localGroupMembers = [...localGroupMembers]
-    $selectedGroupMembers = localGroupMembers
+    localClassMembers[memberIndex]['isSelected'] = !localClassMembers[memberIndex]['isSelected']
+    localClassMembers = [...localClassMembers]
+    $selectedClassMembers = localClassMembers
   }
 
   const handleUnitAssign = (event, memberIndex) => {
     const unitNumber = isNaN(event.target.value) ? '-' : parseInt(event.target.value)
-    localGroupMembers[memberIndex]['selectedUnit'] = unitNumber - 1
-    localGroupMembers = [...localGroupMembers]
-    $selectedGroupMembers = localGroupMembers
+    localClassMembers[memberIndex]['selectedUnit'] = unitNumber - 1
+    localClassMembers = [...localClassMembers]
+    $selectedClassMembers = localClassMembers
   }
 
   const handleToggleUnitAssign = () => {
     isUnitAssignEnabled = !isUnitAssignEnabled
   }
 
-  // listen for change in group selection
-  selectedGroup.subscribe((group) => {
-    localGroupMembers = group ? [...group.members] : []
-    $selectedGroupMembers = localGroupMembers
+  // listen for change in class selection
+  selectedClass.subscribe((aClass) => {
+    localClassMembers = aClass ? [...aClass.members] : []
+    $selectedClassMembers = localClassMembers
   })
 
   // listen for change in number of units available
@@ -47,7 +47,7 @@
 
 <div class="membersContainer boxProps">
   <ul>
-    {#each localGroupMembers as member, memberIndex}
+    {#each localClassMembers as member, memberIndex}
       <li>
         <label>
           <input

@@ -3,7 +3,7 @@
 
   import Icon from 'mdi-svelte'
   import {mdiCog, mdiCogOff} from '@mdi/js'
-  import GroupSelector from './lib/GroupSelector.svelte'
+  import ClassSelector from './lib/ClassSelector.svelte'
   import Members from './lib/Members.svelte'
   import Widgets from './lib/Widgets.svelte'
   import SettingsEditor from './lib/SettingsEditor.svelte'
@@ -45,14 +45,14 @@
       <SettingsEditor />
     </div>
   {:else}
-    <div class="groupPanel panel">
+    <div class="classPanel panel">
       <h2 class="panelHeading">Members</h2>
-      <GroupSelector />
+      <ClassSelector />
       <Members />
     </div>
 
     <div class="widgetsPanel panel">
-      <h2 class="panelHeading">Group size</h2>
+      <h2 class="panelHeading">Unit size</h2>
       <Widgets />
     </div>
 

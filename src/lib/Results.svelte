@@ -72,7 +72,7 @@
   const produceTextAreaContent = () => {
     textAreaContent = ''
     localMembersByUnit.forEach((unit, index) => {
-      textAreaContent += `Group ${index + 1}\n`
+      textAreaContent += `Unit ${index + 1}\n`
       textAreaContent += `${unit.map((member) => member.name).join(', ')}\n`
       textAreaContent += '\n'
     })
