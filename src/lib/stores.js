@@ -11,7 +11,7 @@ const localStorageSelectedBackground = localStorage.selectedBackground || "2"
 updateBackground(localStorageSelectedBackground)
 
 const objectifyMember = (member) => {
-  return { name: member.trim(), selectedUnit: '-', selectedPosition: '-', isSelected: true }
+  return { name: member.trim(), selectedGroup: '-', selectedPosition: '-', isSelected: true }
 }
 
 // Used by BackgroundSelect.svelte
@@ -29,8 +29,8 @@ export let selectedClass = writable(null)
 // Used by Members and Widgets. Ordered alphabetically by member.name
 export let selectedClassMembers = writable(null)
 
-// Used by Widgets and Results. Scrabled version selectedClassMemebers
-export let membersByUnit = writable([])
+// Used by Widgets and Results. Scrambled version selectedClassMembers
+export let membersByGroup = writable([])
 
 // Used by Widgets and Results
 export let isAnimationsEnabled = writable([])
@@ -39,7 +39,7 @@ export let isAnimationsEnabled = writable([])
 export let scrambledAt = writable([])
 
 // Used by Widgets and Members
-export let numberOfAvailableUnits = writable(undefined)
+export let numberOfAvailableGroups = writable(undefined)
 
 // Whenever storedClasses changes
 storedClasses.subscribe((value) => {

@@ -4,78 +4,78 @@
   import {afterUpdate, beforeUpdate} from 'svelte'
   import {scrambleArray, getRandomEmptyIndex} from './utils'
   import {
-    membersByUnit,
+    membersByGroup,
     selectedClassMembers,
     isAnimationsEnabled,
     scrambledAt,
-    numberOfAvailableUnits
+    numberOfAvailableGroups
   } from './stores.js'
 
-  let unitSizes = []
+  let groupSizes = []
   let members = []
-  const defaultUnitSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  const defaultUnitSize = 2
-  let unitSizeOptions = defaultUnitSizeOptions
-  let selectedSize = defaultUnitSize
+  const defaultGroupSizeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const defaultGroupSize = 2
+  let groupSizeOptions = defaultGroupSizeOptions
+  let selectedSize = defaultGroupSize
   let customSelectDropdown
   let mode = 'fixed'
   let isRemainderSeparate = true
 
   beforeUpdate(() => {
     if (mode == 'fixed') {
-      applyFixedUnitSizes(selectedSize)
+      applyFixedGroupSizes(selectedSize)
     }
   })
 
   afterUpdate(() => {
-    if (isUnitPlanningComplete(members, unitSizes)) {
-      $numberOfAvailableUnits = unitSizes.length
+    if (isGroupPlanningComplete(members, groupSizes)) {
+      $numberOfAvailableGroups = groupSizes.length
     } else {
-      $numberOfAvailableUnits = undefined
+      $numberOfAvailableGroups = undefined
     }
   })
 
-  // Check if we know the size of all units
-  const isUnitPlanningComplete = (members, unitSizes) => {
+  // Check if we know the size of all groups
+  const isGroupPlanningComplete = (members, groupSizes) => {
     return (
       members.length ==
-      unitSizes.reduce((acc, unitCount) => {
-        return acc + unitCount
+      groupSizes.reduce((acc, groupCount) => {
+        return acc + groupCount
       }, 0)
     )
   }
 
   const handleSelectFixed = (event) => {
     selectedSize = parseInt(event.target.value)
-    applyFixedUnitSizes(selectedSize)
+    applyFixedGroupSizes(selectedSize)
   }
 
   const handleSelectCustom = (event) => {
     selectedSize = parseInt(event.target.value)
-    unitSizes.push(selectedSize)
+    groupSizes.push(selectedSize)
     // trigger svelte ui update
-    unitSizes = [...unitSizes]
+    groupSizes = [...groupSizes]
     // update dropdown content
-    unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
+    groupSizeOptions = calculateGroupSizeOptions(groupSizes, members.length)
     customSelectDropdown.selectedIndex = 0
   }
 
   const handleToggleMode = () => {
-    unitSizes = []
+    groupSizes = []
     if (mode == 'fixed') {
-      // all units will be of same size
-      selectedSize = defaultUnitSize
-      unitSizeOptions = defaultUnitSizeOptions
+      // all groups will be of same size
+      selectedSize = defaultGroupSize
+      groupSizeOptions = defaultGroupSizeOptions
     } else {
-      // custom unit sizes
-      unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
+      // custom group sizes
+      groupSizeOptions = calculateGroupSizeOptions(groupSizes, members.length)
     }
   }
 
   const handleRandomize = () => {
     $scrambledAt = new Date().toISOString()
     const randomizedMembers = scrambleArray(members)
-    $membersByUnit = [...assignMembersToUnits(randomizedMembers)]
+    $membersByGroup = [...assignMembersToGroups(randomizedMembers)]
   }
 
   const handleToggleRemainder = () => {
@@ -86,83 +86,83 @@
     $isAnimationsEnabled = !$isAnimationsEnabled
   }
 
-  const calculateUnitSizeOptions = (unitSizesSoFar, maximum) => {
+  const calculateGroupSizeOptions = (groupSizesSoFar, maximum) => {
     const assignableCount =
-      maximum - (unitSizesSoFar.length ? unitSizesSoFar.reduce((a, b) => a + b) : 0)
+      maximum - (groupSizesSoFar.length ? groupSizesSoFar.reduce((a, b) => a + b) : 0)
     return Array.from({length: assignableCount + 1}, (_, index) => index)
   }
 
-  const applyFixedUnitSizes = (selectedSize) => {
-    unitSizes = []
+  const applyFixedGroupSizes = (selectedSize) => {
+    groupSizes = []
     let membersLeft = members.length
     while (membersLeft > 0) {
-      const index = unitSizes.length - 1
-      if (unitSizes[index] < selectedSize) {
-        unitSizes[index]++
+      const index = groupSizes.length - 1
+      if (groupSizes[index] < selectedSize) {
+        groupSizes[index]++
       } else {
-        unitSizes[index + 1] = 1
+        groupSizes[index + 1] = 1
       }
       membersLeft--
     }
-    if (!isRemainderSeparate && unitSizes[unitSizes.length - 1] < selectedSize) {
-      // last unit size is too small, make the last ones bigger
-      let lastUnitSize = unitSizes.pop()
-      while (lastUnitSize > 0) {
+    if (!isRemainderSeparate && groupSizes[groupSizes.length - 1] < selectedSize) {
+      // last group size is too small, make the last ones bigger
+      let lastGroupSize = groupSizes.pop()
+      while (lastGroupSize > 0) {
         // divide them up
-        unitSizes.every((_, index) => {
-          unitSizes[index]++
-          lastUnitSize--
-          return lastUnitSize > 0
+        groupSizes.every((_, index) => {
+          groupSizes[index]++
+          lastGroupSize--
+          return lastGroupSize > 0
         })
       }
     }
-    unitSizes = [...unitSizes]
+    groupSizes = [...groupSizes]
   }
 
   // This is where all the difficult stuff happens :)
-  const assignMembersToUnits = (randomizedMembers) => {
+  const assignMembersToGroups = (randomizedMembers) => {
     const result = []
 
     // init result
-    unitSizes.forEach((unitSize, index) => {
-      result[index] = new Array(unitSize)
+    groupSizes.forEach((groupSize, index) => {
+      result[index] = new Array(groupSize)
     })
 
-    // do first pass, assigning members with preferences (selectedUnit and maybe also selectedPosition)
+    // do first pass, assigning members with preferences (selectedGroup and maybe also selectedPosition)
     randomizedMembers
-      .filter((member) => member.selectedUnit !== '-')
+      .filter((member) => member.selectedGroup !== '-')
       .forEach((member) => {
-        const wantedUnitIndex = member.selectedUnit
-        const wantedUnit = result[wantedUnitIndex]
+        const wantedGroupIndex = member.selectedGroup
+        const wantedGroup = result[wantedGroupIndex]
         if (member.selectedPosition === '-') {
           // no selected position, use random index
-          const randomIndex = getRandomEmptyIndex(wantedUnit)
-          wantedUnit[randomIndex] = member
+          const randomIndex = getRandomEmptyIndex(wantedGroup)
+          wantedGroup[randomIndex] = member
         } else {
           // use the specified index
-          wantedUnit[member.selectedPosition] = member
+          wantedGroup[member.selectedPosition] = member
         }
-        result[wantedUnitIndex] = wantedUnit
+        result[wantedGroupIndex] = wantedGroup
       })
 
     // do second pass, assigning users with no preference
-    let unitIndex = 0
-    let unit = result[unitIndex]
+    let groupIndex = 0
+    let group = result[groupIndex]
     randomizedMembers
-      .filter((member) => member.selectedUnit === '-')
+      .filter((member) => member.selectedGroup === '-')
       .forEach((member) => {
-        let nextIndex = getRandomEmptyIndex(unit)
+        let nextIndex = getRandomEmptyIndex(group)
 
-        while (nextIndex == -1 && unitIndex < result.length - 1) {
-          // if unit is full, write it back to result and handle next
-          unitIndex++
-          unit = result[unitIndex]
-          nextIndex = getRandomEmptyIndex(unit)
+        while (nextIndex == -1 && groupIndex < result.length - 1) {
+          // if group is full, write it back to result and handle next
+          groupIndex++
+          group = result[groupIndex]
+          nextIndex = getRandomEmptyIndex(group)
         }
-        unit[nextIndex] = member
-        result[unitIndex] = unit
+        group[nextIndex] = member
+        result[groupIndex] = group
       })
-    result[unitIndex] = unit
+    result[groupIndex] = group
     return result
   }
 
@@ -174,14 +174,14 @@
     const updatedFingerprint = updatedMembers.map((member) => member.name).join(',')
     const isMemberListIdentical = previousFingerprint === updatedFingerprint
     members = updatedMembers
-    // maybe update unit sizes
+    // maybe update group sizes
     if (mode == 'fixed') {
-      applyFixedUnitSizes(selectedSize)
+      applyFixedGroupSizes(selectedSize)
     } else {
-      // Members or selected status have been updated, reset unitSizes
+      // Members or selected status have been updated, reset groupSizes
       if (!isMemberListIdentical) {
-        unitSizes = []
-        unitSizeOptions = calculateUnitSizeOptions(unitSizes, members.length)
+        groupSizes = []
+        groupSizeOptions = calculateGroupSizeOptions(groupSizes, members.length)
       }
     }
   })
@@ -194,15 +194,15 @@
         class="radio"
         type="radio"
         bind:group={mode}
-        name="unitSelectMode"
+        name="groupSelectMode"
         value={'fixed'}
         on:change={handleToggleMode}
       />
 
-      <span class="labelCaption">Fixed unit size</span>
+      <span class="labelCaption">Fixed group size</span>
 
       <select on:change={handleSelectFixed}>
-        {#each unitSizeOptions as option}
+        {#each groupSizeOptions as option}
           <option value={option} selected={option === selectedSize} disabled={mode !== 'fixed'}>
             {option}
           </option>
@@ -225,15 +225,15 @@
         class="radio"
         type="radio"
         bind:group={mode}
-        name="unitSelectMode"
+        name="groupSelectMode"
         value={'custom'}
         on:change={handleToggleMode}
       />
 
-      <span class="labelCaption">Custom unit sizes</span>
+      <span class="labelCaption">Custom group sizes</span>
 
       <select on:change={handleSelectCustom} bind:this={customSelectDropdown}>
-        {#each unitSizeOptions as option}
+        {#each groupSizeOptions as option}
           <option value={option} selected={false} disabled={mode !== 'custom'}>
             {option}
           </option>
@@ -243,18 +243,20 @@
   </div>
 </div>
 
-<h4>Units will look like this</h4>
-<div class="unitSizes">
-  {#if unitSizes.length == 0}
-    no units
+<h4>Members in each group</h4>
+<div class="groupSizes">
+  {#if groupSizes.length == 0}
+    None. Assign custom group sizes in the above box.
   {:else}
-    {#each unitSizes as unitSize}
-      <span class="unitSizesDisplay boxProps">{unitSize}</span>
+    {#each groupSizes as groupSize}
+      <span class="groupSizesDisplay boxProps">{groupSize}</span>
     {/each}
   {/if}
 </div>
 <div>
-  <button class="scrambleButton" on:click={handleRandomize}>Scramble!</button>
+  <button class="scrambleButton" on:click={handleRandomize} disabled={groupSizes.length === 0}
+    >Scramble!</button
+  >
   <span class="remaindersWidget">
     <input
       type="checkbox"

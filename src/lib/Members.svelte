@@ -1,12 +1,12 @@
 <script>
   // @ts-nocheck
 
-  import {selectedClass, selectedClassMembers, numberOfAvailableUnits} from './stores.js'
+  import {selectedClass, selectedClassMembers, numberOfAvailableGroups} from './stores.js'
 
   let localClassMembers
 
-  let unitNumberOptions
-  $: isUnitAssignEnabled = false
+  let groupNumberOptions
+  $: isGroupAssignEnabled = false
 
   const handleToggleMemberPresence = (memberIndex) => {
     localClassMembers[memberIndex]['isSelected'] = !localClassMembers[memberIndex]['isSelected']
@@ -14,15 +14,15 @@
     $selectedClassMembers = localClassMembers
   }
 
-  const handleUnitAssign = (event, memberIndex) => {
-    const unitNumber = isNaN(event.target.value) ? '-' : parseInt(event.target.value)
-    localClassMembers[memberIndex]['selectedUnit'] = unitNumber - 1
+  const handleGroupAssign = (event, memberIndex) => {
+    const groupNumber = isNaN(event.target.value) ? '-' : parseInt(event.target.value)
+    localClassMembers[memberIndex]['selectedGroup'] = groupNumber - 1
     localClassMembers = [...localClassMembers]
     $selectedClassMembers = localClassMembers
   }
 
-  const handleToggleUnitAssign = () => {
-    isUnitAssignEnabled = !isUnitAssignEnabled
+  const handleToggleGroupAssign = () => {
+    isGroupAssignEnabled = !isGroupAssignEnabled
   }
 
   // listen for change in class selection
@@ -31,15 +31,15 @@
     $selectedClassMembers = localClassMembers
   })
 
-  // listen for change in number of units available
-  numberOfAvailableUnits.subscribe((value) => {
+  // listen for change in number of groups available
+  numberOfAvailableGroups.subscribe((value) => {
     if (value === undefined) {
-      isUnitAssignEnabled = false
+      isGroupAssignEnabled = false
     } else {
-      // Create correct number of units in options
-      unitNumberOptions = ['-']
+      // Create correct number of groups in options
+      groupNumberOptions = ['-']
       for (let i = 0; i < value; i++) {
-        unitNumberOptions.push(i + 1)
+        groupNumberOptions.push(i + 1)
       }
     }
   })
@@ -57,10 +57,10 @@
           />
           {member.name}
         </label>
-        {#if isUnitAssignEnabled}
-          <select class="unitAssign" on:change={(event) => handleUnitAssign(event, memberIndex)}>
-            {#each unitNumberOptions as option}
-              <option value={option} selected={option == member.selectedUnit + 1}>
+        {#if isGroupAssignEnabled}
+          <select class="groupAssign" on:change={(event) => handleGroupAssign(event, memberIndex)}>
+            {#each groupNumberOptions as option}
+              <option value={option} selected={option == member.selectedGroup + 1}>
                 {option}
               </option>
             {/each}
@@ -69,9 +69,9 @@
       </li>
     {/each}
   </ul>
-  <span class="toggleUnitAssign" on:click={handleToggleUnitAssign}>
-    {#if $numberOfAvailableUnits !== undefined}
-      {#if isUnitAssignEnabled}%{:else}/{/if}
+  <span class="toggleGroupAssign" on:click={handleToggleGroupAssign}>
+    {#if $numberOfAvailableGroups !== undefined}
+      {#if isGroupAssignEnabled}%{:else}/{/if}
     {/if}
   </span>
 </div>

@@ -2,14 +2,14 @@
   // @ts-nocheck
   import {afterUpdate} from 'svelte'
   import {scrambleArray, random, getRandomEmptyIndex} from './utils'
-  import {membersByUnit, isAnimationsEnabled, scrambledAt} from './stores.js'
+  import {membersByGroup, isAnimationsEnabled, scrambledAt} from './stores.js'
   import PlusMark from './PlusMark.svelte'
   import {loop_guard} from 'svelte/internal'
 
   let textAreaContent // content of the copy/paste friendly version
   let previousScrambledAt // last time a scramble was performed
-  $: localMembersByUnit = [] // local usage of units and members
-  $: placeholdersByIndex = {} // keeps track of unit placeholders
+  $: localMembersByGroup = [] // local usage of groups and members
+  $: placeholdersByIndex = {} // keeps track of group placeholders
 
   afterUpdate(() => {
     setTextAreaHeight()
@@ -19,26 +19,26 @@
     previousScrambledAt = $scrambledAt
   })
 
-  const handleScrambleUnit = (index) => {
-    const unit = localMembersByUnit[index]
-    const scrambledUnit = new Array(unit.length)
+  const handleScrambleGroup = (index) => {
+    const group = localMembersByGroup[index]
+    const scrambledGroup = new Array(group.length)
     // first pass, assign members with fixed positions
-    unit
+    group
       .filter((member) => member.selectedPosition !== '-')
       .forEach((member) => {
-        scrambledUnit[member.selectedPosition] = member
+        scrambledGroup[member.selectedPosition] = member
       })
 
     // second pass, assign members with no fixed positions
-    unit
+    group
       .filter((member) => member.selectedPosition === '-')
       .forEach((member) => {
-        const randomIndex = getRandomEmptyIndex(scrambledUnit)
-        scrambledUnit[randomIndex] = member
+        const randomIndex = getRandomEmptyIndex(scrambledGroup)
+        scrambledGroup[randomIndex] = member
       })
 
-    localMembersByUnit[index] = scrambledUnit
-    $membersByUnit = [...localMembersByUnit]
+    localMembersByGroup[index] = scrambledGroup
+    $membersByGroup = [...localMembersByGroup]
   }
 
   const handleChangePlaceholderCount = (index, increment) => {
@@ -48,17 +48,17 @@
     placeholdersByIndex = Object.assign(placeholdersByIndex)
   }
 
-  const handleToggleSelectPosition = (unitIndex, memberIndex) => {
-    const unit = $membersByUnit[unitIndex]
-    const member = unit[memberIndex]
+  const handleToggleSelectPosition = (groupIndex, memberIndex) => {
+    const group = $membersByGroup[groupIndex]
+    const member = group[memberIndex]
     if (member.selectedPosition === '-') {
-      member.selectedUnit = unitIndex
+      member.selectedGroup = groupIndex
       member.selectedPosition = memberIndex
     } else {
-      member.selectedUnit = '-'
+      member.selectedGroup = '-'
       member.selectedPosition = '-'
     }
-    $membersByUnit = [...$membersByUnit]
+    $membersByGroup = [...$membersByGroup]
   }
 
   const setTextAreaHeight = () => {
@@ -71,9 +71,9 @@
 
   const produceTextAreaContent = () => {
     textAreaContent = ''
-    localMembersByUnit.forEach((unit, index) => {
-      textAreaContent += `Unit ${index + 1}\n`
-      textAreaContent += `${unit.map((member) => member.name).join(', ')}\n`
+    localMembersByGroup.forEach((group, index) => {
+      textAreaContent += `Group ${index + 1}\n`
+      textAreaContent += `${group.map((member) => member.name).join(', ')}\n`
       textAreaContent += '\n'
     })
     textAreaContent = textAreaContent.trim()
@@ -106,25 +106,25 @@
   }
 
   // listen for changes in members
-  membersByUnit.subscribe((value) => {
+  membersByGroup.subscribe((value) => {
     if (value && value.length > 0) {
-      localMembersByUnit = [...value]
+      localMembersByGroup = [...value]
       produceTextAreaContent()
     }
   })
 </script>
 
-{#if localMembersByUnit && localMembersByUnit.length > 0}
+{#if localMembersByGroup && localMembersByGroup.length > 0}
   <div class="classroom">
-    {#each localMembersByUnit as unit, unitIndex}
-      <div class="unit boxProps" key={`unit-${unitIndex}`}>
-        <span class="unitNumber boxProps" on:click={() => handleScrambleUnit(unitIndex)}
-          >{unitIndex + 1}</span
+    {#each localMembersByGroup as group, groupIndex}
+      <div class="group boxProps" key={`group-${groupIndex}`}>
+        <span class="groupNumber boxProps" on:click={() => handleScrambleGroup(groupIndex)}
+          >{groupIndex + 1}</span
         >
-        {#each unit as member, memberIndex (member.name)}
+        {#each group as member, memberIndex (member.name)}
           <span
             class={`memberName ${member.selectedPosition === '-' ? '' : 'fixedPositionMember'}`}
-            on:click={() => handleToggleSelectPosition(unitIndex, memberIndex)}
+            on:click={() => handleToggleSelectPosition(groupIndex, memberIndex)}
           >
             {member.name}
           </span>
@@ -132,15 +132,15 @@
       </div>
       <span
         class="addPlaceholderButtonContainer"
-        on:click={() => handleChangePlaceholderCount(unitIndex, 1)}
+        on:click={() => handleChangePlaceholderCount(groupIndex, 1)}
       >
         <PlusMark />
       </span>
-      {#if placeholdersByIndex[unitIndex]}
-        {#each Array(placeholdersByIndex[unitIndex]) as _}
+      {#if placeholdersByIndex[groupIndex]}
+        {#each Array(placeholdersByIndex[groupIndex]) as _}
           <div
-            class="unitPlaceholder boxProps"
-            on:click={() => handleChangePlaceholderCount(unitIndex, -1)}
+            class="groupPlaceholder boxProps"
+            on:click={() => handleChangePlaceholderCount(groupIndex, -1)}
           >
             {''}
           </div>

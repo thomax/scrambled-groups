@@ -22,7 +22,7 @@
 
   const handleSelect = (event) => {
     const className = event.target.value
-    localSelectedClass = getGroupByName(className)
+    localSelectedClass = getClassByName(className)
     $selectedClass = localSelectedClass
   }
 

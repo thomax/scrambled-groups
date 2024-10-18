@@ -52,7 +52,7 @@
     </div>
 
     <div class="widgetsPanel panel">
-      <h2 class="panelHeading">Unit size</h2>
+      <h2 class="panelHeading">Group size</h2>
       <Widgets />
     </div>
 

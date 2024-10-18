@@ -4,8 +4,8 @@ There are some quirks and debris in this code which I intend to get rid of by go
 
 ## TODO
 
-- [ ] Group -> Class
-- [ ] Unit -> Group
+- [x] Group -> Class
+- [x] Unit -> Group
 - [ ] Derived stores whenever a subset of members is needed
 - [ ] Update group select component
 - [ ] Update member select
@@ -51,19 +51,19 @@ someGroup = {
     {
       name: 'Jane',
       isSelected: true,
-      selectedUnit: 3,
+      selectedGroup: 3,
       selectedPosition: 1
     },
     {
       name: 'Eve',
       isSelected: true,
-      selectedUnit: 3,
+      selectedGroup: 3,
       selectedPosition: '-'
     },
     {
       name: 'Jim',
       isSelected: true,
-      selectedUnit: '-',
+      selectedGroup: '-',
       selectedPosition: '-'
     }
   ],
