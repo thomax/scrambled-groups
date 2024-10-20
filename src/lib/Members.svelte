@@ -27,7 +27,7 @@
 
   // listen for change in class selection
   selectedClass.subscribe((aClass) => {
-    localClassMembers = aClass ? [...aClass.members] : []
+    localClassMembers = aClass?.members ? [...aClass.members] : []
     $selectedClassMembers = localClassMembers
   })
 
@@ -60,7 +60,7 @@
         {#if isGroupAssignEnabled}
           <select class="groupAssign" on:change={(event) => handleGroupAssign(event, memberIndex)}>
             {#each groupNumberOptions as option}
-              <option value={option} selected={option == member.selectedGroup + 1}>
+              <option value={option} selected={option === member.selectedGroup + 1}>
                 {option}
               </option>
             {/each}

@@ -44,7 +44,7 @@ storedGroups holds the raw data, all data as strings
 allGroups holds the data when each group and members thereof are represented as objects
 
 ```
-someGroup = {
+someClass = {
   name: 'Peng',
   members:
   [

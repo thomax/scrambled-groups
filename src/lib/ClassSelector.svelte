@@ -5,14 +5,13 @@
   import {allClasses, selectedClass} from './stores.js'
 
   const url = new URL(window.location.toString())
-  let localSelectedClass = allClasses[0]
 
   onMount(async () => {
     const matchingClass = getClassByName(
       // also use group for backwards compatibility
       url.searchParams.get('class') || url.searchParams.get('group')
     )
-    $selectedClass = matchingClass || allClasses[0]
+    $selectedClass = matchingClass || $allClasses[0]
   })
 
   const updateParams = (className) => {
@@ -22,38 +21,28 @@
 
   const handleSelect = (event) => {
     const className = event.target.value
-    localSelectedClass = getClassByName(className)
-    $selectedClass = localSelectedClass
+    $selectedClass = getClassByName(className)
+    updateParams(className)
   }
 
   const getClassByName = (name) => {
-    return (localSelectedClass = allClasses.find((aClass) => {
+    const klass = $allClasses.find((aClass) => {
       return aClass.name === name
-    }))
+    })
+    return klass
   }
-
-  selectedClass.subscribe((value) => {
-    if (value) {
-      localSelectedClass = value
-      updateParams(localSelectedClass.name)
-    }
-  })
-
-  $: localSelectedClass
 </script>
 
 <select on:change={handleSelect}>
-  {#each allClasses as aClass}
-    <option value={aClass.name} selected={localSelectedClass.name == aClass.name}>
+  {#each $allClasses as aClass}
+    <option value={aClass.name} selected={$selectedClass.name == aClass.name}>
       {aClass.name}
     </option>
   {/each}
 </select>
 
-{#if localSelectedClass}
+{#if $selectedClass.members}
   <span class="memberCount">
-    {`[${localSelectedClass.members.length} member${
-      localSelectedClass.members.length == 1 ? '' : 's'
-    }]`}
+    {`[${$selectedClass.members.length} member${$selectedClass.members.length == 1 ? '' : 's'}]`}
   </span>
 {/if}
